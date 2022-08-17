@@ -23,7 +23,7 @@ class UserPreferences(private val dataStore: DataStore<Preferences>){
         }
     }
 
-    suspend fun deleteUserKey(){
+    suspend fun deleteUser(){
         dataStore.edit { pref->
             pref.remove(token)
         }

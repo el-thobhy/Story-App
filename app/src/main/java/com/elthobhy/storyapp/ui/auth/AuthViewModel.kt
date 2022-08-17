@@ -46,6 +46,14 @@ class AuthViewModel(private val pref: UserPreferences, private val apiService: A
         })
     }
 
+    fun logout() = deleteUser()
+
+    private fun deleteUser() {
+        viewModelScope.launch {
+            pref.deleteUser()
+        }
+    }
+
     private fun saveUserKey(token: String) {
         viewModelScope.launch {
             pref.saveUserToken(token)
