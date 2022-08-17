@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Story App</string>
+    <string name="story">Story</string>
+    <string name="app">App</string>
 </resources>
