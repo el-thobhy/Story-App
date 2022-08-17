@@ -1,10 +1,7 @@
 package com.elthobhy.storyapp.ui.auth
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.elthobhy.storyapp.core.data.remote.ApiService
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
@@ -54,4 +51,6 @@ class AuthViewModel(private val pref: UserPreferences, private val apiService: A
             pref.saveUserToken(token)
         }
     }
+
+    fun getToken() = pref.getUserToken().asLiveData()
 }
