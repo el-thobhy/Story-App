@@ -35,7 +35,6 @@ class Button: AppCompatButton {
         super.onDraw(canvas)
         background = if(isEnabled) enableBackground else disableBackground
         setTextColor(txtColor)
-        text = if(isOutlined) resources.getString(R.string.register) else resources.getString(R.string.login)
     }
 
     private fun init(attrs: AttributeSet?, defStyleAttr: Int=0){

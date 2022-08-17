@@ -17,8 +17,6 @@ import com.elthobhy.storyapp.R
 class EditText : AppCompatEditText, View.OnTouchListener {
 
     private lateinit var clearButtonImage: Drawable
-    private lateinit var emailImage: Drawable
-    private lateinit var passwordImage: Drawable
     private var isEmail: Boolean = false
     private var isPassword: Boolean = false
     private lateinit var enableBackground: Drawable
@@ -41,7 +39,7 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        setPadding(32, 32,32,32)
+        setPadding(40, 32,32,32)
         background = enableBackground
         gravity = Gravity.CENTER_VERTICAL
         compoundDrawablePadding = 16
@@ -53,14 +51,10 @@ class EditText : AppCompatEditText, View.OnTouchListener {
         isEmail = a.getBoolean(R.styleable.EditText_email,false)
         isPassword = a.getBoolean(R.styleable.EditText_password,false)
         enableBackground = ContextCompat.getDrawable(context,R.drawable.bg_edit_text) as Drawable
-
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
-        emailImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mail_24) as Drawable
-        passwordImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_key_24) as Drawable
 
-        if(isEmail) setButtonDrawables(start = emailImage)
-        else if(isPassword) setButtonDrawables(start = passwordImage)
-
+        if(isEmail) setButtonDrawables()
+        else if(isPassword) setButtonDrawables()
         setOnTouchListener(this)
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -90,8 +84,7 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
     private fun hideClearButton() {
         when{
-            isEmail-> setButtonDrawables(start = emailImage)
-            isPassword-> setButtonDrawables(start = passwordImage)
+            isPassword-> setButtonDrawables()
             else-> setButtonDrawables()
         }
     }
@@ -99,11 +92,9 @@ class EditText : AppCompatEditText, View.OnTouchListener {
     private fun showClearButton() {
         when {
             isEmail -> setButtonDrawables(
-                start = emailImage,
                 end = clearButtonImage
             )
             isPassword -> setButtonDrawables(
-                start = passwordImage,
                 end = clearButtonImage
             )
             else-> setButtonDrawables(end = clearButtonImage)
