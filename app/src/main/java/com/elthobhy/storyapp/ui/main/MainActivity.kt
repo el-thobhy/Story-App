@@ -4,14 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.elthobhy.storyapp.R
+import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.ui.StoryAdapter
-import com.elthobhy.storyapp.core.utils.Resource
-import com.elthobhy.storyapp.core.utils.showDialogError
-import com.elthobhy.storyapp.core.utils.showDialogLoading
+import com.elthobhy.storyapp.core.utils.*
 import com.elthobhy.storyapp.databinding.ActivityMainBinding
+import com.elthobhy.storyapp.databinding.ItemStoryBinding
+import com.elthobhy.storyapp.ui.detail.DetailActivity
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
 import kotlinx.coroutines.launch
@@ -48,7 +50,10 @@ class MainActivity : AppCompatActivity() {
                 when(it){
                     is Resource.Success->{
                         dialogLoading.dismiss()
-                        it.data?.let { list -> storyAdapter.setList(list) }
+                        val dataMap = it.data?.let { it1 -> DataMapper.mapResponseToDomain(it1) }
+                        if (dataMap != null) {
+                            storyAdapter.setList(dataMap)
+                        }
                     }
                     is Resource.Loading-> dialogLoading.show()
                     is Resource.Error->{
@@ -59,6 +64,25 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: Story, binding: ItemStoryBinding) {
+                sendData(data, binding)
+            }
+
+        })
+    }
+
+    private fun sendData(data: Story, itemBinding: ItemStoryBinding) {
+        val optionsCompat: ActivityOptionsCompat =
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                Pair(itemBinding.image, "imageDetail"),
+                Pair(itemBinding.tvName, "nameDetail"),
+                Pair(itemBinding.tvDescription, "descriptionDetail")
+            )
+        val intent = Intent(this,DetailActivity::class.java)
+        intent.putExtra(Constants.DATA, data)
+        startActivity(intent, optionsCompat.toBundle())
     }
 
     private fun setUpAppbar() {

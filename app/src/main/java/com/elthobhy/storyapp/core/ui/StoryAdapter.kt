@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elthobhy.storyapp.R
 import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
+import com.elthobhy.storyapp.core.domain.model.Story
+import com.elthobhy.storyapp.core.utils.DataMapper
 import com.elthobhy.storyapp.databinding.ItemStoryBinding
 
 class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
-    private val list = ArrayList<ListStoryItem>()
+    private val list = ArrayList<Story>()
     private lateinit var onItemClickCallback: OnItemClickCallback
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -25,22 +27,22 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
     }
 
     interface OnItemClickCallback{
-        fun onItemClicked(data: ListStoryItem)
+        fun onItemClicked(data: Story, binding: ItemStoryBinding)
     }
 
     inner class StoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val binding = ItemStoryBinding.bind(itemView)
-        fun bind(entity: ListStoryItem) {
+        fun bind(domain: Story) {
             binding.apply {
                 Glide.with(itemView)
-                    .load(entity.photoUrl)
+                    .load(domain.photoUrl)
                     .placeholder(R.drawable.ic_baseline_broken_image_24)
                     .into(image)
-                tvName.text = entity.name
-                tvDescription.text = entity.description
+                tvName.text = domain.name
+                tvDescription.text = domain.description
             }
             itemView.setOnClickListener {
-                onItemClickCallback.onItemClicked(entity)
+                onItemClickCallback.onItemClicked(domain, binding)
             }
         }
     }
@@ -52,9 +54,9 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
     override fun getItemCount(): Int {
         return  list.size
     }
-    fun setList(entity: ArrayList<ListStoryItem>){
+    fun setList(domain: List<Story>){
         list.clear()
-        list.addAll(entity)
+        list.addAll(domain)
         notifyDataSetChanged()
     }
 }

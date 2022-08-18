@@ -15,4 +15,9 @@
     <string name="logout">Logout</string>
     <string name="name_item">Name</string>
     <string name="description">Description</string>
+    <string name="updated_at">Updated At, </string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="jam">Jam</string>
+    <string name="location">Lokasi Tidak dikenali</string>
 </resources>
