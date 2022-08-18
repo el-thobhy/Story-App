@@ -1,17 +1,11 @@
 package com.elthobhy.storyapp.ui.auth
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.elthobhy.storyapp.core.utils.Resource
-import com.elthobhy.storyapp.core.utils.UserPreferences
-import com.elthobhy.storyapp.core.utils.closeKeyboard
-import com.elthobhy.storyapp.core.utils.showDialog
+import androidx.appcompat.app.AlertDialog
+import com.elthobhy.storyapp.core.utils.*
 import com.elthobhy.storyapp.databinding.ActivityLoginBinding
 import com.elthobhy.storyapp.ui.main.MainActivity
 import org.koin.android.ext.android.inject
@@ -20,37 +14,16 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val authViewModel by inject<AuthViewModel>()
-    private var mShouldFinish = false
+    private lateinit var dialogLoading: AlertDialog
+    private lateinit var dialogError: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        dialogLoading= showDialogLoading(this)
         onClick()
-        setupViewModel()
-    }
-
-    private fun setupViewModel() {
-        authViewModel.auth.observe(this){
-            when(it){
-                is Resource.Success->{
-                    showDialog(this,false)
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    mShouldFinish = true
-                }
-                is Resource.Loading -> showDialog(this,true)
-                is Resource.Error->{
-                    showDialog(this,true,it.message)
-                }
-            }
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if(mShouldFinish)
-            finish()
     }
 
     private fun onClick() {
@@ -61,7 +34,24 @@ class LoginActivity : AppCompatActivity() {
                     val passwd = editPassword.text.toString()
 
                     closeKeyboard(this@LoginActivity)
-                    authViewModel.login(email=email, passwd = passwd)
+                    authViewModel.login(email=email, passwd = passwd).observe(this@LoginActivity){
+                        when(it){
+                            is Resource.Success->{
+                                if (!it.data.isNullOrEmpty()){
+                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    finish()
+                                }
+                            }
+                            is Resource.Loading -> {
+                                dialogLoading.show()
+                            }
+                            is Resource.Error->{
+                                dialogError = showDialogError(this@LoginActivity,it.message)
+                                dialogError.show()
+                                dialogLoading.dismiss()
+                            }
+                        }
+                    }
                 }else{
                     Toast.makeText(this@LoginActivity,"Please Field Email and Password", Toast.LENGTH_LONG).show()
                 }
@@ -78,4 +68,10 @@ class LoginActivity : AppCompatActivity() {
                 binding.editPassword.error == null &&
                 !binding.editEmail.text.isNullOrEmpty() &&
                 !binding.editPassword.text.isNullOrEmpty()
+
+    override fun onStop() {
+        super.onStop()
+        dialogLoading.dismiss()
+        dialogError.dismiss()
+    }
 }

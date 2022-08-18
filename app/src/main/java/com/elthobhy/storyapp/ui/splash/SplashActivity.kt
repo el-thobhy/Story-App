@@ -50,7 +50,6 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
                 mShouldFinish = true
-                finishAffinity()
             },2000)
     }
 

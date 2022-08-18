@@ -1,25 +1,33 @@
 package com.elthobhy.storyapp.core.utils
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.elthobhy.storyapp.databinding.LayoutDialogErrorBinding
 import com.elthobhy.storyapp.databinding.LayoutDialogLoadingBinding
 
-fun showDialog(context: Context, state: Boolean, message: String? = null) {
-    val dialogView = LayoutDialogLoadingBinding.inflate(LayoutInflater.from(context))
+fun showDialogError(context: Context, message: String? = null): AlertDialog {
+    val dialogView = LayoutDialogErrorBinding.inflate(LayoutInflater.from(context))
     dialogView.tvMessage.text = message
-    if(state) AlertDialog
+    return AlertDialog
         .Builder(context)
         .setView(dialogView.root)
         .setCancelable(true)
         .create()
-        .show()
-    else AlertDialog.Builder(context).create().hide()
+}
+
+fun showDialogLoading(context: Context): AlertDialog {
+    val dialogView = LayoutDialogLoadingBinding.inflate(LayoutInflater.from(context))
+    return AlertDialog
+        .Builder(context)
+        .setView(dialogView.root)
+        .setCancelable(true)
+        .create()
 }
 fun closeKeyboard(activity: AppCompatActivity) {
     val view: View? = activity.currentFocus

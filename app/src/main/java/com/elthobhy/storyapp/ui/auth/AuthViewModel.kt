@@ -16,12 +16,10 @@ import retrofit2.Response
 
 class AuthViewModel(private val pref: UserPreferences, private val apiService: ApiService): ViewModel(){
 
-    private val _auth = MutableLiveData<Resource<String>>()
+    private val auth = MutableLiveData<Resource<String>>()
 
-    val auth: LiveData<Resource<String>> = _auth
-
-    fun login(email: String, passwd: String){
-        _auth.postValue(Resource.Loading())
+    fun login(email: String, passwd: String): LiveData<Resource<String>>{
+        auth.postValue(Resource.Loading())
         val client = apiService.login(LoginRequest(email = email, password = passwd))
 
         client.enqueue(object : Callback<LoginResponse>{
@@ -29,28 +27,30 @@ class AuthViewModel(private val pref: UserPreferences, private val apiService: A
                 if(response.isSuccessful){
                     val result = response.body()?.loginResult?.token
                     result?.let { saveUserKey(it) }
-                    _auth.postValue(Resource.Success(result))
+                    auth.postValue(Resource.Success(result))
                 }else{
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),
                         BaseResponse::class.java
                     )
-                    _auth.postValue(Resource.Error(error.message))
+                    auth.postValue(Resource.Error(error.message))
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("error", "onFailure: ${t.message}" )
-                _auth.postValue(Resource.Error(t.message))
+                auth.postValue(Resource.Error(t.message))
             }
         })
+        return auth
     }
 
     fun logout() = deleteUser()
 
     private fun deleteUser() {
-        viewModelScope.launch {
+        viewModelScope.launch{
             pref.deleteUser()
+            auth.postValue(Resource.Success(null))
         }
     }
 
