@@ -10,6 +10,7 @@ import com.elthobhy.storyapp.core.data.Repository
 import com.elthobhy.storyapp.core.data.RepositoryInterface
 import com.elthobhy.storyapp.core.data.remote.ApiService
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
+import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -44,4 +45,7 @@ val preferences = module {
 val repository = module {
     single { RemoteDataSource(get(),get()) }
     single { Repository(get()) }
+}
+val adapter = module {
+    single { StoryAdapter() }
 }

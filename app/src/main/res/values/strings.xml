@@ -13,4 +13,6 @@
     <string name="story_app">Story App</string>
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
+    <string name="name_item">Name</string>
+    <string name="description">Description</string>
 </resources>

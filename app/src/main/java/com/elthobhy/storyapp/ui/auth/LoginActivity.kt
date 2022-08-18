@@ -47,7 +47,6 @@ class LoginActivity : AppCompatActivity() {
                                         lifecycleScope.launch{
                                             authViewModel.saveKey(it.data)
                                         }
-                                        Log.e("token", "onClick: ${it.data}", )
                                     }
                                 }
                                 is Resource.Loading -> {

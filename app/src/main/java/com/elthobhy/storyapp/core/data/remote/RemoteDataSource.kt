@@ -7,13 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.request.RegisterRequest
+import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
+import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import com.elthobhy.storyapp.core.utils.Resource
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -73,6 +76,39 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
         })
         return register
     }
+
+    suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>>{
+        val stories = MutableLiveData<Resource<ArrayList<ListStoryItem>>>()
+        stories.postValue(Resource.Loading())
+        val client = apiService.getStories(token = "Bearer ${pref.getUserToken().first()}")
+
+        client.enqueue(object : Callback<AllStoriesResponse>{
+            override fun onResponse(
+                call: Call<AllStoriesResponse>,
+                response: Response<AllStoriesResponse>
+            ) {
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        val list = it.listStory
+                        stories.postValue(Resource.Success(list?.let { it1 -> ArrayList(it1) }))
+                    }
+                }else{
+                    val error = Gson().fromJson(
+                        response.errorBody()?.charStream(),
+                        BaseResponse::class.java
+                    )
+                    stories.postValue(Resource.Error(error.message))
+                }
+            }
+
+            override fun onFailure(call: Call<AllStoriesResponse>, t: Throwable) {
+                stories.postValue(Resource.Error(t.message))
+            }
+
+        })
+        return stories
+    }
+
     suspend fun saveUserKey(token: String) {
             pref.saveUserToken(token)
     }

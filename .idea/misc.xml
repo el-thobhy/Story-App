@@ -12,10 +12,11 @@
         <entry key="app/src/main/res/drawable/ic_baseline_key_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_mail_24.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/item_story.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_dialog_error.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_loading.xml" value="0.33" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.2" />

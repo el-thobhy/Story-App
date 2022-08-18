@@ -1,6 +1,7 @@
 package com.elthobhy.storyapp
 
 import android.app.Application
+import com.elthobhy.storyapp.core.di.adapter
 import com.elthobhy.storyapp.core.di.networking
 import com.elthobhy.storyapp.core.di.preferences
 import com.elthobhy.storyapp.core.di.repository
@@ -21,7 +22,8 @@ class MyApp: Application() {
                     networking,
                     viewModel,
                     preferences,
-                    repository
+                    repository,
+                    adapter
                 )
             )
         }
