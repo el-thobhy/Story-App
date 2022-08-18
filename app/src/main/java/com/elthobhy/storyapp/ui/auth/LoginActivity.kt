@@ -27,10 +27,10 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
         dialogLoading= showDialogLoading(this)
         dialogError= showDialogError(this)
-        onClick()
+        setUpViewModle()
     }
 
-    private fun onClick() {
+    private fun setUpViewModle() {
         binding.apply {
             btnLogin.setOnClickListener {
                 if(loginToServer()){

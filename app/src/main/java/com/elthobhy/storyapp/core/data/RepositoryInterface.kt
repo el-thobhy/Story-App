@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.elthobhy.storyapp.core.utils.Resource
 
 interface RepositoryInterface {
-    fun getData(email: String, passwd: String): LiveData<Resource<String>>
+    fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>>
     suspend fun getToken(token:String)
+    fun getDataRegister(name: String, email: String, passwd: String): LiveData<Resource<String>>
 }
