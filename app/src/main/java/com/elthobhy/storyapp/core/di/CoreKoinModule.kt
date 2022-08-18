@@ -6,7 +6,10 @@ import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.elthobhy.storyapp.BuildConfig
+import com.elthobhy.storyapp.core.data.Repository
+import com.elthobhy.storyapp.core.data.RepositoryInterface
 import com.elthobhy.storyapp.core.data.remote.ApiService
+import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -36,4 +39,9 @@ val networking = module {
 private val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "token")
 val preferences = module {
     single { UserPreferences.getInstance(androidContext().datastore) }
+}
+
+val repository = module {
+    single { RemoteDataSource(get(),get()) }
+    single { Repository(get()) }
 }

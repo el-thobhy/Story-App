@@ -3,11 +3,14 @@ package com.elthobhy.storyapp.ui.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.elthobhy.storyapp.core.utils.*
 import com.elthobhy.storyapp.databinding.ActivityLoginBinding
 import com.elthobhy.storyapp.ui.main.MainActivity
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {
@@ -23,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         dialogLoading= showDialogLoading(this)
+        dialogError= showDialogError(this)
         onClick()
     }
 
@@ -34,23 +38,27 @@ class LoginActivity : AppCompatActivity() {
                     val passwd = editPassword.text.toString()
 
                     closeKeyboard(this@LoginActivity)
-                    authViewModel.login(email=email, passwd = passwd).observe(this@LoginActivity){
-                        when(it){
-                            is Resource.Success->{
-                                if (!it.data.isNullOrEmpty()){
-                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                    finish()
+                        authViewModel.login(email=email, passwd = passwd).observe(this@LoginActivity){
+                            when(it){
+                                is Resource.Success->{
+                                    if (!it.data.isNullOrEmpty()){
+                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                        finish()
+                                        lifecycleScope.launch{
+                                            authViewModel.saveKey(it.data)
+                                        }
+                                        Log.e("token", "onClick: ${it.data}", )
+                                    }
+                                }
+                                is Resource.Loading -> {
+                                    dialogLoading.show()
+                                }
+                                is Resource.Error->{
+                                    dialogError = showDialogError(this@LoginActivity,it.message)
+                                    dialogError.show()
+                                    dialogLoading.dismiss()
                                 }
                             }
-                            is Resource.Loading -> {
-                                dialogLoading.show()
-                            }
-                            is Resource.Error->{
-                                dialogError = showDialogError(this@LoginActivity,it.message)
-                                dialogError.show()
-                                dialogLoading.dismiss()
-                            }
-                        }
                     }
                 }else{
                     Toast.makeText(this@LoginActivity,"Please Field Email and Password", Toast.LENGTH_LONG).show()
