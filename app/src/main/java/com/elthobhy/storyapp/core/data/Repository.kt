@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
 import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.utils.Resource
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class Repository(private val remoteDataSource: RemoteDataSource): RepositoryInterface {
     override fun getDataLogin(email:String, passwd:String): LiveData<Resource<String>> {
@@ -24,5 +26,12 @@ class Repository(private val remoteDataSource: RemoteDataSource): RepositoryInte
 
     override suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>> {
         return remoteDataSource.getStories()
+    }
+
+    override suspend fun postStory(
+        imageMultipart: MultipartBody.Part,
+        description: RequestBody
+    ): LiveData<Resource<String>> {
+        return remoteDataSource.postStory(imageMultipart = imageMultipart, description = description)
     }
 }

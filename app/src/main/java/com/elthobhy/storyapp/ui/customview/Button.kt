@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.Gravity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.elthobhy.storyapp.R
@@ -35,6 +36,7 @@ class Button: AppCompatButton {
         super.onDraw(canvas)
         background = if(isEnabled) enableBackground else disableBackground
         setTextColor(txtColor)
+        gravity = Gravity.CENTER
     }
 
     private fun init(attrs: AttributeSet?, defStyleAttr: Int=0){

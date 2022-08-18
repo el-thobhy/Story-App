@@ -1,10 +1,8 @@
 package com.elthobhy.storyapp.core.data.remote
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.request.RegisterRequest
 import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
@@ -14,10 +12,9 @@ import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import com.elthobhy.storyapp.core.utils.Resource
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,7 +73,6 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
         })
         return register
     }
-
     suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>>{
         val stories = MutableLiveData<Resource<ArrayList<ListStoryItem>>>()
         stories.postValue(Resource.Loading())
@@ -107,6 +103,36 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
 
         })
         return stories
+    }
+    suspend fun postStory(
+        imageMultipart: MultipartBody.Part,
+        description: RequestBody,
+    ): LiveData<Resource<String>> {
+        val post = MutableLiveData<Resource<String>>()
+        post.postValue(Resource.Loading())
+        val client = apiService.addStory(
+            token = "Bearer ${pref.getUserToken().first()}",
+            file = imageMultipart,
+            description = description
+        )
+        client.enqueue(object : Callback<BaseResponse>{
+            override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
+                if(response.isSuccessful){
+                    post.postValue(Resource.Success(response?.body()?.message))
+                }else{
+                    val error = Gson().fromJson(
+                        response.errorBody()?.charStream(),
+                        BaseResponse::class.java
+                    )
+                    post.postValue(Resource.Error(error.message))
+                }
+            }
+
+            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
+                post.postValue(Resource.Error(t.message))
+            }
+        })
+        return post
     }
 
     suspend fun saveUserKey(token: String) {

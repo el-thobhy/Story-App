@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="@id/icon_date"
             app:layout_constraintStart_toEndOf="@id/icon_date"
             android:text="@string/updated_at"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_marginStart="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
@@ -70,7 +70,7 @@
             app:layout_constraintStart_toEndOf="@id/icon_location"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/longitude"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_marginEnd="16dp"
@@ -94,14 +94,16 @@
             app:layout_constraintTop_toBottomOf="@id/tv_location"
             app:layout_constraintStart_toStartOf="@id/tv_name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
             android:id="@+id/tv_description"
             android:transitionName="descriptionDetail"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginEnd="10dp"
             android:text="@string/description"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_light"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

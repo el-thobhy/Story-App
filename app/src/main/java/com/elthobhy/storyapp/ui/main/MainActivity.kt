@@ -16,6 +16,8 @@ import com.elthobhy.storyapp.databinding.ItemStoryBinding
 import com.elthobhy.storyapp.ui.detail.DetailActivity
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -102,5 +104,24 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         dialogLoading.dismiss()
         dialogError.dismiss()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchData()
+    }
+
+    private fun fetchData() {
+        lifecycleScope.launch {
+            mainViewModel.getStories().observe(this@MainActivity){
+                if(it is Resource.Success){
+                    dialogLoading.dismiss()
+                    val dataMap = it.data?.let { it1 -> DataMapper.mapResponseToDomain(it1) }
+                    if (dataMap != null) {
+                        storyAdapter.setList(dataMap)
+                    }
+                }
+            }
+        }
     }
 }

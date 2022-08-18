@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="radius">15dp</dimen>
+    <dimen name="radius">20dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

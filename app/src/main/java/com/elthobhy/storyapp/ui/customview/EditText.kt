@@ -20,6 +20,7 @@ class EditText : AppCompatEditText, View.OnTouchListener {
     private var isEmail: Boolean = false
     private var isPassword: Boolean = false
     private lateinit var enableBackground: Drawable
+    private var isDescription: Boolean = false
 
     constructor(context: Context) : super(context) {
         init(null)
@@ -41,7 +42,6 @@ class EditText : AppCompatEditText, View.OnTouchListener {
         super.onDraw(canvas)
         setPadding(40, 32,32,32)
         background = enableBackground
-        gravity = Gravity.CENTER_VERTICAL
         compoundDrawablePadding = 16
     }
 
@@ -52,6 +52,14 @@ class EditText : AppCompatEditText, View.OnTouchListener {
         isPassword = a.getBoolean(R.styleable.EditText_password,false)
         enableBackground = ContextCompat.getDrawable(context,R.drawable.bg_edit_text) as Drawable
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+        isDescription = a.getBoolean(R.styleable.EditText_state_multiline, false)
+
+        if(isDescription){
+            gravity = Gravity.START
+            gravity = Gravity.START
+        }else{
+            gravity = Gravity.CENTER_VERTICAL
+        }
 
         if(isEmail) setButtonDrawables()
         else if(isPassword) setButtonDrawables()
