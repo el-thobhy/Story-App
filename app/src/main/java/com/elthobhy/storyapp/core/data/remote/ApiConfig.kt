@@ -14,7 +14,6 @@ class ApiConfig {
             val client = OkHttpClient.Builder()
 
             if (BuildConfig.DEBUG) {
-                Log.e("tes", "getApiService: " )
                 val logging = HttpLoggingInterceptor()
                 logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                 logging.redactHeader("Authorization")
