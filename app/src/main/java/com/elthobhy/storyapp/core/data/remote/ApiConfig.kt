@@ -1,6 +1,7 @@
 package com.elthobhy.storyapp.core.data.remote
 
 
+import android.util.Log
 import com.elthobhy.storyapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,15 +11,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
     companion object {
         fun getApiService(): ApiService {
-            val loggingInterceptor =
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
+
+            if (BuildConfig.DEBUG) {
+                Log.e("tes", "getApiService: " )
+                val logging = HttpLoggingInterceptor()
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+                logging.redactHeader("Authorization")
+                logging.redactHeader("Cookie")
+                client.addInterceptor(logging)
+            }
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
+                .client(client.build())
                 .build()
             return retrofit.create(ApiService::class.java)
         }

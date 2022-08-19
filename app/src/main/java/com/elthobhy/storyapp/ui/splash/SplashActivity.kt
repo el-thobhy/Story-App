@@ -8,6 +8,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import com.elthobhy.storyapp.core.utils.Constants
 import com.elthobhy.storyapp.databinding.ActivitySplashBinding
 import com.elthobhy.storyapp.ui.auth.AuthViewModel
 import com.elthobhy.storyapp.ui.auth.LoginActivity
@@ -46,7 +47,7 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
                 mShouldFinish = true
-            }, 2000)
+            }, Constants.SPLASH_LONG)
     }
 
     override fun onStop() {

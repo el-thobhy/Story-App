@@ -72,8 +72,8 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val input = p0.toString()
-                val emailError = "Invalid Email Format"
-                val passwordError = "At Least 6 Characters"
+                val emailError = context.getString(R.string.invalid_email)
+                val passwordError = context.getString(R.string.invalid_password)
 
                 if (p0.toString().isNotEmpty()) showClearButton() else hideClearButton()
                 error =

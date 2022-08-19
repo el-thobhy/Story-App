@@ -9,4 +9,5 @@ object Constants {
     const val REQUEST_CODE_PERMISSIONS = 10
     const val PICTURE = "picture"
     const val IS_BACK_CAMERA = "isBackCamera"
+    const val SPLASH_LONG = 2000L
 }

@@ -48,4 +48,6 @@
     <string name="image_item">Image Item</string>
     <string name="error_image">Error Image</string>
     <string name="image_loading">Image Loading</string>
+    <string name="invalid_email">Invalid Email Format</string>
+    <string name="invalid_password">At Least 6 Characters</string>
 </resources>
