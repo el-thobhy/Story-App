@@ -6,12 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elthobhy.storyapp.R
-import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.domain.model.Story
-import com.elthobhy.storyapp.core.utils.DataMapper
 import com.elthobhy.storyapp.databinding.ItemStoryBinding
 
-class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
+class StoryAdapter : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
     private val list = ArrayList<Story>()
     private lateinit var onItemClickCallback: OnItemClickCallback
     override fun onCreateViewHolder(
@@ -22,15 +20,15 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
         return StoryViewHolder(view)
     }
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    interface OnItemClickCallback{
+    interface OnItemClickCallback {
         fun onItemClicked(data: Story, binding: ItemStoryBinding)
     }
 
-    inner class StoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class StoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemStoryBinding.bind(itemView)
         fun bind(domain: Story) {
             binding.apply {
@@ -52,9 +50,10 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryViewHolder>(){
     }
 
     override fun getItemCount(): Int {
-        return  list.size
+        return list.size
     }
-    fun setList(domain: List<Story>){
+
+    fun setList(domain: List<Story>) {
         list.clear()
         list.addAll(domain)
         notifyDataSetChanged()

@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
 fun showDialogError(context: Context, message: String? = null): AlertDialog {
@@ -42,6 +41,7 @@ fun showDialogLoading(context: Context): AlertDialog {
         .setCancelable(true)
         .create()
 }
+
 fun closeKeyboard(activity: AppCompatActivity) {
     val view: View? = activity.currentFocus
     if (view != null) {
@@ -50,6 +50,7 @@ fun closeKeyboard(activity: AppCompatActivity) {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
+
 fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
     val matrix = Matrix()
     return if (isBackCamera) {
@@ -83,24 +84,24 @@ val timeStamp: String = SimpleDateFormat(
     Locale.US
 ).format(System.currentTimeMillis())
 
-fun createFile(application: Application): File{
+fun createFile(application: Application): File {
     val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
-        File(it,application.resources.getString(R.string.app_name))
+        File(it, application.resources.getString(R.string.app_name))
 
     }
-    val outputDir = if(
+    val outputDir = if (
         mediaDir != null && mediaDir.exists()
     ) mediaDir else application.filesDir
 
     return File(outputDir, "$timeStamp.jpg")
 }
 
-fun createTempFile(context: Context): File{
+fun createTempFile(context: Context): File {
     val directory: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(timeStamp, ".jpg", directory)
 }
 
-fun uriToFile(selectedImage: Uri, context: Context): File{
+fun uriToFile(selectedImage: Uri, context: Context): File {
     val contentResolver: ContentResolver = context.contentResolver
     val file = createTempFile(context)
 
@@ -108,24 +109,24 @@ fun uriToFile(selectedImage: Uri, context: Context): File{
     val outputStream: OutputStream = FileOutputStream(file)
     val buf = ByteArray(1024)
     var length: Int
-    while (inputStream.read(buf).also { length=it }>0) outputStream.write(buf, 0, length)
+    while (inputStream.read(buf).also { length = it } > 0) outputStream.write(buf, 0, length)
     outputStream.close()
     inputStream.close()
 
     return file
 }
 
-fun compressImage(file: File): File{
+fun compressImage(file: File): File {
     val bitmap = BitmapFactory.decodeFile(file.path)
     var compressQuality = 100
     var streamLength: Int
-    do{
+    do {
         val bmpStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
-        val  bmpPictByteArray = bmpStream.toByteArray()
+        val bmpPictByteArray = bmpStream.toByteArray()
         streamLength = bmpPictByteArray.size
         compressQuality -= 5
-    } while (streamLength>1000000)
+    } while (streamLength > 1000000)
     bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
 }

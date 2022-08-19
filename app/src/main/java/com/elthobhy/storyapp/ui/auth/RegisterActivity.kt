@@ -25,37 +25,51 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        dialogLoading= showDialogLoading(this)
-        dialogError= showDialogError(this)
+        dialogLoading = showDialogLoading(this)
+        dialogError = showDialogError(this)
         setUpViewModel()
     }
 
     private fun setUpViewModel() {
         binding.apply {
             buttonRegister.setOnClickListener {
-                if(registerToServer()){
+                if (registerToServer()) {
                     val name = editName.text.toString()
                     val email = editEmail.text.toString()
                     val password = editPassword.text.toString()
 
                     closeKeyboard(this@RegisterActivity)
-                    authViewModel.register(name=name, email = email, passwd = password).observe(this@RegisterActivity){
-                        when(it){
-                            is Resource.Success->{
-                                Toast.makeText(this@RegisterActivity,"User Created", Toast.LENGTH_LONG).show()
-                                startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
-                                finishAffinity()
-                            }
-                            is Resource.Loading-> dialogLoading.show()
-                            is Resource.Error->{
-                                dialogError = showDialogError(this@RegisterActivity,it.message)
-                                dialogError.show()
-                                dialogLoading.dismiss()
+                    authViewModel.register(name = name, email = email, passwd = password)
+                        .observe(this@RegisterActivity) {
+                            when (it) {
+                                is Resource.Success -> {
+                                    Toast.makeText(
+                                        this@RegisterActivity,
+                                        "User Created",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    startActivity(
+                                        Intent(
+                                            this@RegisterActivity,
+                                            LoginActivity::class.java
+                                        )
+                                    )
+                                    finishAffinity()
+                                }
+                                is Resource.Loading -> dialogLoading.show()
+                                is Resource.Error -> {
+                                    dialogError = showDialogError(this@RegisterActivity, it.message)
+                                    dialogError.show()
+                                    dialogLoading.dismiss()
+                                }
                             }
                         }
-                    }
-                }else{
-                    Toast.makeText(this@RegisterActivity,getString(R.string.field_error),Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        getString(R.string.field_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

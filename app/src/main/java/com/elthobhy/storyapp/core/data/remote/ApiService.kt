@@ -1,6 +1,5 @@
 package com.elthobhy.storyapp.core.data.remote
 
-import android.content.ClipDescription
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.request.RegisterRequest
 import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
@@ -20,9 +19,9 @@ interface ApiService {
 
     @GET("stories")
     fun getStories(
-        @Header("Authorization")token: String,
-        @Query("page")page: Int? = null,
-        @Query("size")size: Int? = null
+        @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null
     ): Call<AllStoriesResponse>
 
     @Multipart
@@ -34,9 +33,9 @@ interface ApiService {
     ): Call<BaseResponse>
 
     @GET("stories")
-     suspend fun getStoriesForWidget(
-        @Header("Authorization")token: String,
-        @Query("page")page: Int? = null,
-        @Query("size")size: Int? = null
+    suspend fun getStoriesForWidget(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null
     ): AllStoriesResponse
 }

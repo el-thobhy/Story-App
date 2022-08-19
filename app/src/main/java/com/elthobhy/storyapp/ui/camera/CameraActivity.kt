@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -15,7 +14,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.elthobhy.storyapp.core.utils.Constants
 import com.elthobhy.storyapp.core.utils.createFile
-import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.databinding.ActivityCameraBinding
 
 class CameraActivity : AppCompatActivity() {
@@ -55,30 +53,31 @@ class CameraActivity : AppCompatActivity() {
 
     private fun startCamera() {
         val cameraProvideFuture = ProcessCameraProvider.getInstance(this)
-        cameraProvideFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProvideFuture.get()
-            val previewPrograms = Preview.Builder()
-                .build().also {
-                    it.setSurfaceProvider(binding.cameraScreen.surfaceProvider)
-                }
-            imageCapture = ImageCapture.Builder().build()
+        cameraProvideFuture.addListener(
+            {
+                val cameraProvider: ProcessCameraProvider = cameraProvideFuture.get()
+                val previewPrograms = Preview.Builder()
+                    .build().also {
+                        it.setSurfaceProvider(binding.cameraScreen.surfaceProvider)
+                    }
+                imageCapture = ImageCapture.Builder().build()
 
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this,
-                    cameraSelector,
-                    previewPrograms,
-                    imageCapture
-                )
-            }catch (e: Exception){
-                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-            }
-        }, ContextCompat.getMainExecutor(this)
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        this,
+                        cameraSelector,
+                        previewPrograms,
+                        imageCapture
+                    )
+                } catch (e: Exception) {
+                    Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+                }
+            }, ContextCompat.getMainExecutor(this)
         )
     }
 
-    private fun takePhoto(){
+    private fun takePhoto() {
         binding.tvCapturing.visibility = View.VISIBLE
         val imageCapture = imageCapture ?: return
         val file = createFile(application)
@@ -86,18 +85,21 @@ class CameraActivity : AppCompatActivity() {
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback{
+            object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val intent = Intent().apply {
                         putExtra(Constants.PICTURE, file)
-                        putExtra(Constants.IS_BACK_CAMERA, cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA)
+                        putExtra(
+                            Constants.IS_BACK_CAMERA,
+                            cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
+                        )
                     }
                     setResult(Constants.CAMERA_X_RESULT, intent)
                     finish()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(this@CameraActivity,exception.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@CameraActivity, exception.message, Toast.LENGTH_LONG).show()
                 }
 
             }

@@ -6,7 +6,7 @@ import com.elthobhy.storyapp.ui.posting.PostingViewModel
 import org.koin.dsl.module
 
 val viewModel = module {
-    single { AuthViewModel(get(),get()) }
+    single { AuthViewModel(get(), get()) }
     single { MainViewModel(get()) }
     single { PostingViewModel(get()) }
 }

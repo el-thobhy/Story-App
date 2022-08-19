@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.elthobhy.storyapp.R
 
-class Button: AppCompatButton {
+class Button : AppCompatButton {
 
     private var isOutlined = false
     private var txtColor: Int = 0
@@ -34,23 +34,23 @@ class Button: AppCompatButton {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        background = if(isEnabled) enableBackground else disableBackground
+        background = if (isEnabled) enableBackground else disableBackground
         setTextColor(txtColor)
         gravity = Gravity.CENTER
     }
 
-    private fun init(attrs: AttributeSet?, defStyleAttr: Int=0){
-        val a = context.obtainStyledAttributes(attrs, R.styleable.Button, defStyleAttr,0)
+    private fun init(attrs: AttributeSet?, defStyleAttr: Int = 0) {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.Button, defStyleAttr, 0)
 
         isOutlined = a.getBoolean(R.styleable.Button_outlined, false)
         txtColor = ContextCompat.getColor(
             context,
-            if(isOutlined) android.R.color.black else android.R.color.white
+            if (isOutlined) android.R.color.black else android.R.color.white
         )
         enableBackground =
             ContextCompat.getDrawable(
                 context,
-                if(isOutlined) R.drawable.bg_button_outline else R.drawable.bg_button
+                if (isOutlined) R.drawable.bg_button_outline else R.drawable.bg_button
             ) as Drawable
         disableBackground =
             ContextCompat.getDrawable(context, R.drawable.bg_button_disabled) as Drawable

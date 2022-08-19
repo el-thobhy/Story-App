@@ -28,6 +28,7 @@
                     android:src="@drawable/ic_baseline_add_box_24"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="10dp"
+                    android:contentDescription="@string/add_story_icon"
                     android:layout_width="wrap_content"
                     android:theme="@style/IconColor"
                     android:layout_height="match_parent"/>
@@ -38,6 +39,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginEnd="20sp"
                     android:padding="10dp"
+                    android:contentDescription="@string/settings_icon"
                     android:theme="@style/IconColor"
                     android:src="@drawable/ic_baseline_settings_24"
                     android:layout_width="wrap_content"

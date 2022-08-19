@@ -7,24 +7,24 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserPreferences(private val dataStore: DataStore<Preferences>){
+class UserPreferences(private val dataStore: DataStore<Preferences>) {
 
     private val token = stringPreferencesKey("token")
 
     fun getUserToken(): Flow<String> {
-        return dataStore.data.map { pref->
+        return dataStore.data.map { pref ->
             pref[token] ?: ""
         }
     }
 
-    suspend fun saveUserToken(userToken: String){
-        dataStore.edit { pref->
+    suspend fun saveUserToken(userToken: String) {
+        dataStore.edit { pref ->
             pref[token] = userToken
         }
     }
 
-    suspend fun deleteUser(){
-        dataStore.edit { pref->
+    suspend fun deleteUser() {
+        dataStore.edit { pref ->
             pref.remove(token)
         }
     }

@@ -4,9 +4,9 @@ import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.domain.model.Story
 
 object DataMapper {
-    fun mapResponseToDomain(input: List<ListStoryItem>): List<Story>{
+    fun mapResponseToDomain(input: List<ListStoryItem>): List<Story> {
         val mapTo = ArrayList<Story>()
-        input.map{
+        input.map {
             val listTo = Story(
                 name = it.name,
                 createdAt = it.createdAt,

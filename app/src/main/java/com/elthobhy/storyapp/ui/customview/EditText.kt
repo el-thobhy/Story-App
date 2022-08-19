@@ -40,31 +40,32 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        setPadding(40, 32,32,32)
+        setPadding(40, 32, 32, 32)
         background = enableBackground
         compoundDrawablePadding = 16
     }
 
     private fun init(attrs: AttributeSet?, defStyleAttr: Int = 0) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.EditText,defStyleAttr,0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.EditText, defStyleAttr, 0)
 
-        isEmail = a.getBoolean(R.styleable.EditText_email,false)
-        isPassword = a.getBoolean(R.styleable.EditText_password,false)
-        enableBackground = ContextCompat.getDrawable(context,R.drawable.bg_edit_text) as Drawable
-        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+        isEmail = a.getBoolean(R.styleable.EditText_email, false)
+        isPassword = a.getBoolean(R.styleable.EditText_password, false)
+        enableBackground = ContextCompat.getDrawable(context, R.drawable.bg_edit_text) as Drawable
+        clearButtonImage =
+            ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
         isDescription = a.getBoolean(R.styleable.EditText_state_multiline, false)
 
-        if(isDescription){
+        if (isDescription) {
             gravity = Gravity.START
             gravity = Gravity.START
-        }else{
+        } else {
             gravity = Gravity.CENTER_VERTICAL
         }
 
-        if(isEmail) setButtonDrawables()
-        else if(isPassword) setButtonDrawables()
+        if (isEmail) setButtonDrawables()
+        else if (isPassword) setButtonDrawables()
         setOnTouchListener(this)
-        addTextChangedListener(object : TextWatcher{
+        addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 //Do nothing
             }
@@ -74,12 +75,12 @@ class EditText : AppCompatEditText, View.OnTouchListener {
                 val emailError = "Invalid Email Format"
                 val passwordError = "At Least 6 Characters"
 
-                if(p0.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                error=
-                    when{
-                        isPassword && input.length <6 && input.isNotEmpty()-> passwordError
-                        isEmail && !Patterns.EMAIL_ADDRESS.matcher(input).matches()-> emailError
-                        else-> null
+                if (p0.toString().isNotEmpty()) showClearButton() else hideClearButton()
+                error =
+                    when {
+                        isPassword && input.length < 6 && input.isNotEmpty() -> passwordError
+                        isEmail && !Patterns.EMAIL_ADDRESS.matcher(input).matches() -> emailError
+                        else -> null
                     }
             }
 
@@ -91,9 +92,9 @@ class EditText : AppCompatEditText, View.OnTouchListener {
     }
 
     private fun hideClearButton() {
-        when{
-            isPassword-> setButtonDrawables()
-            else-> setButtonDrawables()
+        when {
+            isPassword -> setButtonDrawables()
+            else -> setButtonDrawables()
         }
     }
 
@@ -105,7 +106,7 @@ class EditText : AppCompatEditText, View.OnTouchListener {
             isPassword -> setButtonDrawables(
                 end = clearButtonImage
             )
-            else-> setButtonDrawables(end = clearButtonImage)
+            else -> setButtonDrawables(end = clearButtonImage)
         }
     }
 
@@ -124,41 +125,47 @@ class EditText : AppCompatEditText, View.OnTouchListener {
     }
 
     override fun onTouch(p0: View?, p1: MotionEvent): Boolean {
-        if(compoundDrawables[2] != null){
+        if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
-            if(layoutDirection == View.LAYOUT_DIRECTION_RTL){
+            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
-                when{
+                when {
                     p1.x < clearButtonEnd -> isClearButtonClicked = true
                 }
-            }else{
+            } else {
                 clearButtonStart = (width - paddingEnd - clearButtonImage.intrinsicWidth).toFloat()
-                when{
+                when {
                     p1.x > clearButtonStart -> isClearButtonClicked = true
                 }
             }
-            if(isClearButtonClicked){
-                when(p1.action){
-                    MotionEvent.ACTION_DOWN->{
+            if (isClearButtonClicked) {
+                when (p1.action) {
+                    MotionEvent.ACTION_DOWN -> {
                         clearButtonImage =
-                            ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_baseline_close_24
+                            ) as Drawable
                         showClearButton()
                         return true
                     }
-                    MotionEvent.ACTION_UP->{
+                    MotionEvent.ACTION_UP -> {
                         clearButtonImage =
-                            ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
-                        when{
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_baseline_close_24
+                            ) as Drawable
+                        when {
                             text != null -> text?.clear()
                         }
                         hideClearButton()
                         return true
                     }
-                    else-> return false
+                    else -> return false
                 }
-            }else return false
+            } else return false
         }
         return false
     }

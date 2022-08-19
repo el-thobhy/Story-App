@@ -18,7 +18,8 @@ import com.elthobhy.storyapp.widget.StackAppWidget.Companion.EXTRA_ITEM
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 
-internal class StackRemoteViewsFactory(private val context: Context): RemoteViewsService.RemoteViewsFactory {
+internal class StackRemoteViewsFactory(private val context: Context) :
+    RemoteViewsService.RemoteViewsFactory {
 
     private val mWidgetItems = ArrayList<ListStoryItem>()
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
@@ -34,7 +35,11 @@ internal class StackRemoteViewsFactory(private val context: Context): RemoteView
             mWidgetItems.clear()
             coroutineScope {
                 ApiConfig.getApiService()
-                    .getStoriesForWidget(token = "Bearer ${pref.getUserToken().first()}").listStory?.let {
+                    .getStoriesForWidget(
+                        token = "Bearer ${
+                            pref.getUserToken().first()
+                        }"
+                    ).listStory?.let {
                         mWidgetItems.addAll(
                             it
                         )

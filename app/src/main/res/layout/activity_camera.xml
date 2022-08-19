@@ -49,7 +49,7 @@
         android:clickable="true"
         android:focusable="true"
         android:contentDescription="@string/rotate_camera"
-        android:src="@drawable/ic_baseline_cameraswitch_24"
+        android:src="@drawable/ic_baseline_camera_switch_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="32dp"

@@ -1,13 +1,15 @@
 package com.elthobhy.storyapp.ui.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.elthobhy.storyapp.core.utils.*
+import com.elthobhy.storyapp.core.utils.Resource
+import com.elthobhy.storyapp.core.utils.closeKeyboard
+import com.elthobhy.storyapp.core.utils.showDialogError
+import com.elthobhy.storyapp.core.utils.showDialogLoading
 import com.elthobhy.storyapp.databinding.ActivityLoginBinding
 import com.elthobhy.storyapp.ui.main.MainActivity
 import kotlinx.coroutines.launch
@@ -25,26 +27,32 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        dialogLoading= showDialogLoading(this)
-        dialogError= showDialogError(this)
-        setUpViewModle()
+        dialogLoading = showDialogLoading(this)
+        dialogError = showDialogError(this)
+        setUpViewModel()
     }
 
-    private fun setUpViewModle() {
+    private fun setUpViewModel() {
         binding.apply {
             btnLogin.setOnClickListener {
-                if(loginToServer()){
+                if (loginToServer()) {
                     val email = editEmail.text.toString()
                     val passwd = editPassword.text.toString()
 
                     closeKeyboard(this@LoginActivity)
-                        authViewModel.login(email=email, passwd = passwd).observe(this@LoginActivity){
-                            when(it){
-                                is Resource.Success->{
-                                    if (!it.data.isNullOrEmpty()){
-                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    authViewModel.login(email = email, passwd = passwd)
+                        .observe(this@LoginActivity) {
+                            when (it) {
+                                is Resource.Success -> {
+                                    if (!it.data.isNullOrEmpty()) {
+                                        startActivity(
+                                            Intent(
+                                                this@LoginActivity,
+                                                MainActivity::class.java
+                                            )
+                                        )
                                         finish()
-                                        lifecycleScope.launch{
+                                        lifecycleScope.launch {
                                             authViewModel.saveKey(it.data)
                                         }
                                     }
@@ -52,15 +60,19 @@ class LoginActivity : AppCompatActivity() {
                                 is Resource.Loading -> {
                                     dialogLoading.show()
                                 }
-                                is Resource.Error->{
-                                    dialogError = showDialogError(this@LoginActivity,it.message)
+                                is Resource.Error -> {
+                                    dialogError = showDialogError(this@LoginActivity, it.message)
                                     dialogError.show()
                                     dialogLoading.dismiss()
                                 }
                             }
-                    }
-                }else{
-                    Toast.makeText(this@LoginActivity,"Please Field Email and Password", Toast.LENGTH_LONG).show()
+                        }
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Please Field Email and Password",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
             buttonRegister.setOnClickListener {

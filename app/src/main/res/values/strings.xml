@@ -39,4 +39,13 @@
     <string name="empty_text">NO DATA</string>
     <string name="widget_image">Widget Image</string>
     <string name="auth">Bearer %1$s</string>
+    <string name="image_detail">Image Detail</string>
+    <string name="date_detail">Date Detail</string>
+    <string name="location_detail">Location Detail</string>
+    <string name="add_story_icon">Add Story Image</string>
+    <string name="settings_icon">Settings Icon</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="image_item">Image Item</string>
+    <string name="error_image">Error Image</string>
+    <string name="image_loading">Image Loading</string>
 </resources>

@@ -30,8 +30,8 @@ class PostStoryActivity : AppCompatActivity() {
     private var getFile: File? = null
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){
-        if(it.resultCode == Constants.CAMERA_X_RESULT){
+    ) {
+        if (it.resultCode == Constants.CAMERA_X_RESULT) {
             val file = it.data?.getSerializableExtra("picture") as File
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
             val result = rotateBitmap(
@@ -44,8 +44,8 @@ class PostStoryActivity : AppCompatActivity() {
     }
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){
-        if(it.resultCode == RESULT_OK){
+    ) {
+        if (it.resultCode == RESULT_OK) {
             val selectedImage: Uri = it.data?.data as Uri
             val file = uriToFile(selectedImage, this@PostStoryActivity)
             binding.postingImage.setImageURI(selectedImage)
@@ -75,7 +75,7 @@ class PostStoryActivity : AppCompatActivity() {
                 startCameraX()
             }
             buttonGalleryAdd.setOnClickListener {
-                startGalery()
+                startGallery()
             }
             binding.buttonUpload.setOnClickListener {
                 uploadImage()
@@ -84,7 +84,7 @@ class PostStoryActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        if(getFile!=null){
+        if (getFile != null) {
             dialogLoading.show()
             val file = compressImage(getFile as File)
 
@@ -100,29 +100,32 @@ class PostStoryActivity : AppCompatActivity() {
                     requestImageFile
                 )
             lifecycleScope.launch {
-                postingViewModel.postingStory(imageMultipart = imageMultipart, description = description).observe(this@PostStoryActivity){
-                    when(it){
+                postingViewModel.postingStory(
+                    imageMultipart = imageMultipart,
+                    description = description
+                ).observe(this@PostStoryActivity) {
+                    when (it) {
                         is Resource.Success -> {
-                            Toast.makeText(this@PostStoryActivity,it.data, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@PostStoryActivity, it.data, Toast.LENGTH_LONG)
+                                .show()
                             finish()
                         }
-                        is Resource.Loading-> dialogLoading.show()
-                        is Resource.Error->{
+                        is Resource.Loading -> dialogLoading.show()
+                        is Resource.Error -> {
                             dialogLoading.dismiss()
-                            dialog = showDialogError(this@PostStoryActivity,it.message)
+                            dialog = showDialogError(this@PostStoryActivity, it.message)
                             dialog.show()
                         }
                     }
                 }
             }
-        }
-        else{
-            dialog = showDialogError(this,getString(R.string.empty_picture))
+        } else {
+            dialog = showDialogError(this, getString(R.string.empty_picture))
             dialog.show()
         }
     }
 
-    private fun startGalery() {
+    private fun startGallery() {
         val intent = Intent()
         intent.action = ACTION_GET_CONTENT
         intent.type = "image/*"
@@ -136,22 +139,22 @@ class PostStoryActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode==Constants.REQUEST_CODE_PERMISSIONS){
-            if(!allPermissionGranted()){
-                dialog = showDialogError(this,getString(R.string.permission_denied))
+        if (requestCode == Constants.REQUEST_CODE_PERMISSIONS) {
+            if (!allPermissionGranted()) {
+                dialog = showDialogError(this, getString(R.string.permission_denied))
                 dialog.show()
                 finish()
             }
         }
     }
 
-    private fun startCameraX(){
-        val intent = Intent(this,CameraActivity::class.java)
+    private fun startCameraX() {
+        val intent = Intent(this, CameraActivity::class.java)
         launcherIntentCameraX.launch(intent)
     }
 
     private fun setPermission() {
-        if(!allPermissionGranted()){
+        if (!allPermissionGranted()) {
             ActivityCompat.requestPermissions(
                 this,
                 Constants.REQUIRED_PERMISSIONS,
@@ -161,7 +164,7 @@ class PostStoryActivity : AppCompatActivity() {
     }
 
     private fun allPermissionGranted() = Constants.REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(baseContext,it) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun setUpActionBar() {
@@ -171,12 +174,12 @@ class PostStoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            android.R.id.home->{
+        return when (item.itemId) {
+            android.R.id.home -> {
                 onBackPressed()
                 true
             }
-            else->true
+            else -> true
         }
 
     }

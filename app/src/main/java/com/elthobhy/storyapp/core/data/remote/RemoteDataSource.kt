@@ -19,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RemoteDataSource(private val pref: UserPreferences,private val apiService: ApiService) {
+class RemoteDataSource(private val pref: UserPreferences, private val apiService: ApiService) {
 
     fun login(email: String, passwd: String): LiveData<Resource<String>> {
         val auth = MutableLiveData<Resource<String>>()
@@ -28,10 +28,10 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
 
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val result = response.body()?.loginResult?.token
                     auth.postValue(Resource.Success(result))
-                }else{
+                } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),
                         BaseResponse::class.java
@@ -41,23 +41,25 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.e("error", "onFailure: ${t.message}" )
+                Log.e("error", "onFailure: ${t.message}")
                 auth.postValue(Resource.Error(t.message))
             }
         })
         return auth
     }
-    fun register(name: String, email: String, passwd: String): LiveData<Resource<String>>{
+
+    fun register(name: String, email: String, passwd: String): LiveData<Resource<String>> {
         val register = MutableLiveData<Resource<String>>()
         register.postValue(Resource.Loading())
-        val client = apiService.register(RegisterRequest(password = passwd, name = name, email = email))
+        val client =
+            apiService.register(RegisterRequest(password = passwd, name = name, email = email))
 
-        client.enqueue(object :Callback<BaseResponse>{
+        client.enqueue(object : Callback<BaseResponse> {
             override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val message = response.body()?.message.toString()
                     register.postValue(Resource.Success(message))
-                }else{
+                } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),
                         BaseResponse::class.java
@@ -73,22 +75,23 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
         })
         return register
     }
-    suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>>{
+
+    suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>> {
         val stories = MutableLiveData<Resource<ArrayList<ListStoryItem>>>()
         stories.postValue(Resource.Loading())
         val client = apiService.getStories(token = "Bearer ${pref.getUserToken().first()}")
 
-        client.enqueue(object : Callback<AllStoriesResponse>{
+        client.enqueue(object : Callback<AllStoriesResponse> {
             override fun onResponse(
                 call: Call<AllStoriesResponse>,
                 response: Response<AllStoriesResponse>
             ) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.let {
                         val list = it.listStory
                         stories.postValue(Resource.Success(list?.let { it1 -> ArrayList(it1) }))
                     }
-                }else{
+                } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),
                         BaseResponse::class.java
@@ -104,6 +107,7 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
         })
         return stories
     }
+
     suspend fun postStory(
         imageMultipart: MultipartBody.Part,
         description: RequestBody,
@@ -115,11 +119,11 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
             file = imageMultipart,
             description = description
         )
-        client.enqueue(object : Callback<BaseResponse>{
+        client.enqueue(object : Callback<BaseResponse> {
             override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
-                if(response.isSuccessful){
-                    post.postValue(Resource.Success(response?.body()?.message))
-                }else{
+                if (response.isSuccessful) {
+                    post.postValue(Resource.Success(response.body()?.message))
+                } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),
                         BaseResponse::class.java
@@ -136,7 +140,7 @@ class RemoteDataSource(private val pref: UserPreferences,private val apiService:
     }
 
     suspend fun saveUserKey(token: String) {
-            pref.saveUserToken(token)
+        pref.saveUserToken(token)
     }
 
 }

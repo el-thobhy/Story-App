@@ -7,12 +7,12 @@ import com.elthobhy.storyapp.core.utils.Resource
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class Repository(private val remoteDataSource: RemoteDataSource): RepositoryInterface {
-    override fun getDataLogin(email:String, passwd:String): LiveData<Resource<String>> {
+class Repository(private val remoteDataSource: RemoteDataSource) : RepositoryInterface {
+    override fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> {
         return remoteDataSource.login(email, passwd)
     }
 
-    override suspend fun getToken(token: String){
+    override suspend fun getToken(token: String) {
         return remoteDataSource.saveUserKey(token)
     }
 
@@ -32,6 +32,9 @@ class Repository(private val remoteDataSource: RemoteDataSource): RepositoryInte
         imageMultipart: MultipartBody.Part,
         description: RequestBody
     ): LiveData<Resource<String>> {
-        return remoteDataSource.postStory(imageMultipart = imageMultipart, description = description)
+        return remoteDataSource.postStory(
+            imageMultipart = imageMultipart,
+            description = description
+        )
     }
 }

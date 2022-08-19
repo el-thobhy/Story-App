@@ -31,11 +31,11 @@ class DetailActivity : AppCompatActivity() {
         val date = data?.createdAt?.split("T")
         val geocoder = Geocoder(this, Locale.getDefault())
         binding.apply {
-            if(data?.lat!=null && data.lon !=null){
-                location = geocoder.getFromLocation(data.lat, data.lon,1)
+            if (data?.lat != null && data.lon != null) {
+                location = geocoder.getFromLocation(data.lat, data.lon, 1)
                 val address = location[0].getAddressLine(0).toString()
                 tvLocation.text = address
-            }else{
+            } else {
                 tvLocation.text = getString(R.string.location)
             }
             Glide.with(this@DetailActivity)
@@ -55,12 +55,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            android.R.id.home->{
+        return when (item.itemId) {
+            android.R.id.home -> {
                 onBackPressed()
                 true
             }
-            else-> true
+            else -> true
         }
     }
 }

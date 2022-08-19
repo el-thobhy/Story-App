@@ -8,8 +8,11 @@ import okhttp3.RequestBody
 
 interface RepositoryInterface {
     fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>>
-    suspend fun getToken(token:String)
+    suspend fun getToken(token: String)
     fun getDataRegister(name: String, email: String, passwd: String): LiveData<Resource<String>>
     suspend fun getStories(): LiveData<Resource<ArrayList<ListStoryItem>>>
-    suspend fun postStory(imageMultipart: MultipartBody.Part, description: RequestBody,): LiveData<Resource<String>>
+    suspend fun postStory(
+        imageMultipart: MultipartBody.Part,
+        description: RequestBody
+    ): LiveData<Resource<String>>
 }

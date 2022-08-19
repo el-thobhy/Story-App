@@ -21,6 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/image_detail"
             android:scaleType="center"
+            android:contentDescription="@string/image_detail"
             android:transitionName="imageDetail"
             android:layout_width="match_parent"
             tools:src="@tools:sample/avatars"
@@ -45,6 +46,7 @@
             android:src="@drawable/ic_baseline_calendar_month_24"
             android:id="@+id/icon_date"
             android:paddingTop="5dp"
+            android:contentDescription="@string/date_detail"
             android:paddingBottom="5dp"
             android:theme="@style/IconColor"
             android:layout_width="0dp"
@@ -87,6 +89,7 @@
             android:src="@drawable/ic_baseline_location_on_24"
             android:layout_width="wrap_content"
             android:theme="@style/IconColor"
+            android:contentDescription="@string/location_detail"
             android:layout_marginTop="8dp"
             android:paddingBottom="5dp"
             android:layout_height="0dp"/>

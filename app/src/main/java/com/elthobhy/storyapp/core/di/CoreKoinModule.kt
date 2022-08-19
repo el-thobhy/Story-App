@@ -2,17 +2,14 @@ package com.elthobhy.storyapp.core.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.elthobhy.storyapp.BuildConfig
 import com.elthobhy.storyapp.core.data.Repository
-import com.elthobhy.storyapp.core.data.RepositoryInterface
 import com.elthobhy.storyapp.core.data.remote.ApiService
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.UserPreferences
-import com.elthobhy.storyapp.widget.StackWidgetService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -44,9 +41,8 @@ val preferences = module {
 }
 
 val repository = module {
-    single { RemoteDataSource(get(),get()) }
+    single { RemoteDataSource(get(), get()) }
     single { Repository(get()) }
-    single { StackWidgetService(get())}
 }
 val adapter = module {
     single { StoryAdapter() }
