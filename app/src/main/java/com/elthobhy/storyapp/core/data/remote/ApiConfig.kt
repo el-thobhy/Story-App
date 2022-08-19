@@ -1,7 +1,6 @@
 package com.elthobhy.storyapp.core.data.remote
 
 
-import android.util.Log
 import com.elthobhy.storyapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

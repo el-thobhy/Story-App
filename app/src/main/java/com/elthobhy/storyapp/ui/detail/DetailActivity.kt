@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.elthobhy.storyapp.R
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.utils.Constants
+import com.elthobhy.storyapp.core.utils.DateFormatter
 import com.elthobhy.storyapp.databinding.ActivityDetailBinding
 import java.util.*
 
@@ -28,7 +29,6 @@ class DetailActivity : AppCompatActivity() {
     private fun showDetail() {
         val data = intent.getParcelableExtra<Story>(Constants.DATA)
         var location: MutableList<Address>
-        val date = data?.createdAt?.split("T")
         val geocoder = Geocoder(this, Locale.getDefault())
         binding.apply {
             if (data?.lat != null && data.lon != null) {
@@ -43,7 +43,7 @@ class DetailActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_baseline_broken_image_24)
                 .into(imageDetail)
             tvName.text = data?.name
-            createAt.text = date?.get(0)
+            createAt.text = data?.createdAt?.let { DateFormatter.formatDate(it, TimeZone.getDefault().id) }
             tvDescription.text = data?.description
         }
     }
