@@ -32,4 +32,11 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody
     ): Call<BaseResponse>
+
+    @GET("stories")
+     suspend fun getStoriesForWidget(
+        @Header("Authorization")token: String,
+        @Query("page")page: Int? = null,
+        @Query("size")size: Int? = null
+    ): AllStoriesResponse
 }

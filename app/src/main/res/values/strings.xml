@@ -32,4 +32,11 @@
     <string name="choose_picture">Choose Picture</string>
     <string name="empty_picture">Picture is Empty</string>
     <string name="field_error">Please Field Your Name, Email and Password</string>
+    <string name="appwidget_text">STORY APP</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="widget">Widget</string>
+    <string name="empty_text">NO DATA</string>
+    <string name="widget_image">Widget Image</string>
+    <string name="auth">Bearer %1$s</string>
 </resources>

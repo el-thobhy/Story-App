@@ -3,7 +3,7 @@
     <declare-styleable name="EditText">
         <attr name="email" format="boolean" />
         <attr name="password" format="boolean" />
-        <attr name="state_multiline" format="boolean"/>
+        <attr name="state_multiline" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="Button">

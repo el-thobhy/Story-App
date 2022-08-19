@@ -26,6 +26,8 @@
         <entry key="app/src/main/res/layout/item_story.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_error.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_loading.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/stack_app_widget.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/widget_item.xml" value="0.1" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.2" />
       </map>
     </option>
