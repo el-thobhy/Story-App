@@ -26,6 +26,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -69,4 +70,8 @@ dependencies {
     implementation "androidx.camera:camera-camera2:1.2.0-alpha04"
     implementation "androidx.camera:camera-lifecycle:1.2.0-alpha04"
     implementation "androidx.camera:camera-view:1.2.0-alpha04"
+
+    //de_sugaring
+    //noinspection GradleDependency
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 }
