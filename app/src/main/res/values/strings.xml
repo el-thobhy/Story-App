@@ -31,4 +31,5 @@
     <string name="permission_denied">Permissions Denied</string>
     <string name="choose_picture">Choose Picture</string>
     <string name="empty_picture">Picture is Empty</string>
+    <string name="field_error">Please Field Your Name, Email and Password</string>
 </resources>

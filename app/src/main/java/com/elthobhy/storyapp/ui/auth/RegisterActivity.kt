@@ -54,6 +54,8 @@ class RegisterActivity : AppCompatActivity() {
                             }
                         }
                     }
+                }else{
+                    Toast.makeText(this@RegisterActivity,getString(R.string.field_error),Toast.LENGTH_LONG).show()
                 }
             }
         }
