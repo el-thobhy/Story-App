@@ -13,6 +13,7 @@ import com.elthobhy.storyapp.core.utils.DataMapper
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.elthobhy.storyapp.core.utils.vo.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -56,6 +57,27 @@ class Repository(
             }
 
             override fun shouldFetch(data: PagingData<Story>?): Boolean {
+                return data == null
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<List<ListStoryItem>>> {
+                return remoteDataSource.getStories()
+            }
+
+            override suspend fun saveCallResult(data: List<ListStoryItem>) {
+                val dataMap = DataMapper.mapResponseToEntity(data)
+                return localDataSource.insertStories(dataMap)
+            }
+        }.asFlow()
+
+    override fun getStoriesLocation(): Flow<Resource<List<Story>>> =
+        object : NetworkBoundResource<List<Story>, List<ListStoryItem>>(){
+            override suspend fun loadFromDb(): Flow<List<Story>> {
+                return localDataSource.getStoriesLocation().map { DataMapper.mapEntityToDomain(it) }
+
+            }
+
+            override fun shouldFetch(data: List<Story>?): Boolean {
                 return data == null
             }
 

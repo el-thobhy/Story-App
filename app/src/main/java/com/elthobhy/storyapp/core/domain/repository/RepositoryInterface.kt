@@ -14,6 +14,7 @@ interface RepositoryInterface {
     suspend fun getToken(token: String)
     fun getDataRegister(name: String, email: String, passwd: String): LiveData<Resource<String>>
     fun getStories(): Flow<Resource<PagingData<Story>>>
+    fun getStoriesLocation(): Flow<Resource<List<Story>>>
     suspend fun postStory(
         imageMultipart: MultipartBody.Part,
         description: RequestBody

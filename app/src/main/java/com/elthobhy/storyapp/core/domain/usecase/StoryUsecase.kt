@@ -9,6 +9,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface StoryUsecase {
+    fun getStoriesLocation(): Flow<Resource<List<Story>>>
     fun getStories(): Flow<Resource<PagingData<Story>>>
     fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>>
     suspend fun getToken(token: String)
