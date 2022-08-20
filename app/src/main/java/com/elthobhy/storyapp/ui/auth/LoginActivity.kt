@@ -6,10 +6,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.elthobhy.storyapp.core.utils.Resource
 import com.elthobhy.storyapp.core.utils.closeKeyboard
 import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
+import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityLoginBinding
 import com.elthobhy.storyapp.ui.main.MainActivity
 import kotlinx.coroutines.launch
@@ -42,8 +42,8 @@ class LoginActivity : AppCompatActivity() {
                     closeKeyboard(this@LoginActivity)
                     authViewModel.login(email = email, passwd = passwd)
                         .observe(this@LoginActivity) {
-                            when (it) {
-                                is Resource.Success -> {
+                            when (it.status) {
+                                Status.SUCCESS -> {
                                     if (!it.data.isNullOrEmpty()) {
                                         startActivity(
                                             Intent(
@@ -57,10 +57,10 @@ class LoginActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
-                                is Resource.Loading -> {
+                                Status.LOADING -> {
                                     dialogLoading.show()
                                 }
-                                is Resource.Error -> {
+                                Status.ERROR -> {
                                     dialogError = showDialogError(this@LoginActivity, it.message)
                                     dialogError.show()
                                     dialogLoading.dismiss()

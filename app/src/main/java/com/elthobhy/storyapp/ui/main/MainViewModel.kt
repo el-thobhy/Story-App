@@ -1,8 +1,9 @@
 package com.elthobhy.storyapp.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.elthobhy.storyapp.core.data.Repository
+import androidx.lifecycle.asLiveData
+import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 
-class MainViewModel(private val repository: Repository) : ViewModel() {
-    suspend fun getStories() = repository.getStories()
+class MainViewModel(private val useCase: StoryUsecase) : ViewModel() {
+    fun getStories() = useCase.getStories().asLiveData()
 }

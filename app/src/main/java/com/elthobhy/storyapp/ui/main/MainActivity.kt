@@ -2,18 +2,21 @@ package com.elthobhy.storyapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.DataMapper
-import com.elthobhy.storyapp.core.utils.Resource
 import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
+import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityMainBinding
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -30,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         dialogLoading = showDialogLoading(this)
         dialogError = showDialogError(this)
         setUpAppbar()
@@ -44,22 +49,22 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = storyAdapter
         }
-        lifecycleScope.launch {
-            mainViewModel.getStories().observe(this@MainActivity) {
-                when (it) {
-                    is Resource.Success -> {
-                        dialogLoading.dismiss()
-                        val dataMap = it.data?.let { it1 -> DataMapper.mapResponseToDomain(it1) }
-                        if (dataMap != null) {
-                            storyAdapter.submitList(dataMap)
-                        }
+        mainViewModel.getStories().observe(this@MainActivity) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    dialogLoading.dismiss()
+                    if (it.data != null) {
+                        storyAdapter.submitList(it.data)
                     }
-                    is Resource.Loading -> dialogLoading.show()
-                    is Resource.Error -> {
-                        dialogError = showDialogError(this@MainActivity, it.message)
-                        dialogError.show()
-                        dialogLoading.dismiss()
-                    }
+                }
+                Status.LOADING -> {
+                    dialogLoading.show()
+                }
+                Status.ERROR -> {
+                    dialogError = showDialogError(this@MainActivity, it.message)
+                    dialogError.show()
+                    dialogLoading.dismiss()
+                    Log.e("main", "setUpRv: ${it.message}")
                 }
             }
         }
@@ -90,14 +95,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            mainViewModel.getStories().observe(this@MainActivity) {
-                if (it is Resource.Success) {
-                    dialogLoading.dismiss()
-                    val dataMap = it.data?.let { it1 -> DataMapper.mapResponseToDomain(it1) }
-                    if (dataMap != null) {
-                        storyAdapter.submitList(dataMap)
-                    }
+        mainViewModel.getStories().observe(this@MainActivity) {
+            if (it.status == Status.SUCCESS) {
+                dialogLoading.dismiss()
+                if (it.data != null) {
+                    storyAdapter.submitList(it.data)
                 }
             }
         }

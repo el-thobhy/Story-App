@@ -11,7 +11,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.bumptech.glide.Glide
 import com.elthobhy.storyapp.R
-import com.elthobhy.storyapp.core.data.remote.ApiConfig
+import com.elthobhy.storyapp.core.data.remote.network.ApiConfig
 import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.elthobhy.storyapp.widget.StackAppWidget.Companion.EXTRA_ITEM

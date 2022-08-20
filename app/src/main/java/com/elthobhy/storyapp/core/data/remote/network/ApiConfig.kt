@@ -1,4 +1,4 @@
-package com.elthobhy.storyapp.core.data.remote
+package com.elthobhy.storyapp.core.data.remote.network
 
 
 import com.elthobhy.storyapp.BuildConfig

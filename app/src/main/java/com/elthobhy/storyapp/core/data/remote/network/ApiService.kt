@@ -1,9 +1,10 @@
-package com.elthobhy.storyapp.core.data.remote
+package com.elthobhy.storyapp.core.data.remote.network
 
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.request.RegisterRequest
 import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
+import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,11 +19,11 @@ interface ApiService {
     fun register(@Body request: RegisterRequest): Call<BaseResponse>
 
     @GET("stories")
-    fun getStories(
+    suspend fun getStories(
         @Header("Authorization") token: String,
         @Query("page") page: Int? = null,
         @Query("size") size: Int? = null
-    ): Call<AllStoriesResponse>
+    ): AllStoriesResponse
 
     @Multipart
     @POST("stories")

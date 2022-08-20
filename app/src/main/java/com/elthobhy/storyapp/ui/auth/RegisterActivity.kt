@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.elthobhy.storyapp.R
-import com.elthobhy.storyapp.core.utils.Resource
 import com.elthobhy.storyapp.core.utils.closeKeyboard
 import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
+import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityRegisterBinding
 import org.koin.android.ext.android.inject
 
@@ -41,8 +41,8 @@ class RegisterActivity : AppCompatActivity() {
                     closeKeyboard(this@RegisterActivity)
                     authViewModel.register(name = name, email = email, passwd = password)
                         .observe(this@RegisterActivity) {
-                            when (it) {
-                                is Resource.Success -> {
+                            when (it.status) {
+                                Status.SUCCESS -> {
                                     Toast.makeText(
                                         this@RegisterActivity,
                                         "User Created",
@@ -56,8 +56,8 @@ class RegisterActivity : AppCompatActivity() {
                                     )
                                     finishAffinity()
                                 }
-                                is Resource.Loading -> dialogLoading.show()
-                                is Resource.Error -> {
+                                Status.LOADING -> dialogLoading.show()
+                                Status.ERROR -> {
                                     dialogError = showDialogError(this@RegisterActivity, it.message)
                                     dialogError.show()
                                     dialogLoading.dismiss()

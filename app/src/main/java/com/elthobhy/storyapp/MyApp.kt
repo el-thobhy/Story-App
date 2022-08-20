@@ -5,6 +5,7 @@ import com.elthobhy.storyapp.core.di.adapter
 import com.elthobhy.storyapp.core.di.networking
 import com.elthobhy.storyapp.core.di.preferences
 import com.elthobhy.storyapp.core.di.repository
+import com.elthobhy.storyapp.di.useCaseModule
 import com.elthobhy.storyapp.di.viewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,7 +24,8 @@ class MyApp : Application() {
                     viewModel,
                     preferences,
                     repository,
-                    adapter
+                    adapter,
+                    useCaseModule
                 )
             )
         }

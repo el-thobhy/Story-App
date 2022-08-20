@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.elthobhy.storyapp.R
 import com.elthobhy.storyapp.core.utils.*
+import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityPostStoryBinding
 import com.elthobhy.storyapp.ui.camera.CameraActivity
 import kotlinx.coroutines.launch
@@ -104,14 +105,14 @@ class PostStoryActivity : AppCompatActivity() {
                     imageMultipart = imageMultipart,
                     description = description
                 ).observe(this@PostStoryActivity) {
-                    when (it) {
-                        is Resource.Success -> {
+                    when (it.status) {
+                        Status.SUCCESS -> {
                             Toast.makeText(this@PostStoryActivity, it.data, Toast.LENGTH_LONG)
                                 .show()
                             finish()
                         }
-                        is Resource.Loading -> dialogLoading.show()
-                        is Resource.Error -> {
+                        Status.LOADING-> dialogLoading.show()
+                        Status.ERROR -> {
                             dialogLoading.dismiss()
                             dialog = showDialogError(this@PostStoryActivity, it.message)
                             dialog.show()
