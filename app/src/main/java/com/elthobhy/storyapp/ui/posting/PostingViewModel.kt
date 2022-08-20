@@ -1,13 +1,13 @@
 package com.elthobhy.storyapp.ui.posting
 
 import androidx.lifecycle.ViewModel
-import com.elthobhy.storyapp.core.data.Repository
+import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class PostingViewModel(private val repository: Repository) : ViewModel() {
+class PostingViewModel(private val useCase: StoryUsecase) : ViewModel() {
     suspend fun postingStory(
         imageMultipart: MultipartBody.Part,
         description: RequestBody
-    ) = repository.postStory(imageMultipart, description)
+    ) = useCase.postStory(imageMultipart, description)
 }

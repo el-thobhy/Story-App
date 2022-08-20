@@ -1,10 +1,7 @@
 package com.elthobhy.storyapp.core.data
 
 import androidx.lifecycle.LiveData
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.elthobhy.storyapp.core.data.local.LocalDataSource
 import com.elthobhy.storyapp.core.data.local.room.StoryDatabase
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
@@ -59,7 +56,7 @@ class Repository(
             }
 
             override fun shouldFetch(data: PagingData<Story>?): Boolean {
-                return true
+                return data == null
             }
 
             override suspend fun createCall(): Flow<ApiResponse<List<ListStoryItem>>> {

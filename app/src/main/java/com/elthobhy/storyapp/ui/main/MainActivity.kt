@@ -3,6 +3,7 @@ package com.elthobhy.storyapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,6 @@ import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityMainBinding
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -36,29 +36,18 @@ class MainActivity : AppCompatActivity() {
         dialogLoading = showDialogLoading(this)
         dialogError = showDialogError(this)
         setUpAppbar()
+        getData()
         setUpRv()
-
     }
 
-    private fun setUpRv() {
-        binding.rvStories.adapter = storyAdapter.withLoadStateFooter(
-            footer = LoadingStateAdapter{
-                storyAdapter.retry()
-            }
-        )
-        binding.rvStories.apply {
-            setHasFixedSize(true)
-            layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = storyAdapter
-        }
+    private fun getData() {
         mainViewModel.getStories().observe(this@MainActivity) {
             when (it.status) {
                 Status.SUCCESS -> {
                     dialogLoading.dismiss()
                     if (it.data != null) {
-                        lifecycleScope.launchWhenCreated {
-                            storyAdapter.submitData(it.data)
+                        lifecycleScope.launchWhenStarted {
+                            storyAdapter.submitData(lifecycle, it.data)
                         }
                     }
                 }
@@ -75,6 +64,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpRv() {
+        binding.rvStories.apply {
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
+            adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storyAdapter.retry()
+                }
+            )
+        }
+
+    }
+
     private fun setUpAppbar() {
         binding.apply {
             setSupportActionBar(toolbar)
@@ -83,9 +86,23 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             }
             ivPost.setOnClickListener {
-                startActivity(Intent(this@MainActivity, PostStoryActivity::class.java))
+                Intent(this@MainActivity, PostStoryActivity::class.java).also{
+                    launcherInsertStory.launch(it)
+                }
             }
         }
+    }
+
+    private val launcherInsertStory = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+        if(it.resultCode == INSERT_RESULT){
+            reGetStory()
+        }
+    }
+    private fun reGetStory() {
+        getData()
+        setUpRv()
     }
 
     override fun onStop() {
@@ -96,19 +113,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        fetchData()
+        reGetStory()
     }
 
-    private fun fetchData() {
-        mainViewModel.getStories().observe(this@MainActivity) {
-            if (it.status == Status.SUCCESS) {
-                dialogLoading.dismiss()
-                if (it.data != null) {
-                    lifecycleScope.launch {
-                        storyAdapter.submitData(it.data)
-                    }
-                }
-            }
-        }
+    companion object {
+        const val INSERT_RESULT = 200
     }
 }

@@ -5,12 +5,11 @@ import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +18,7 @@ import com.elthobhy.storyapp.core.utils.*
 import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityPostStoryBinding
 import com.elthobhy.storyapp.ui.camera.CameraActivity
+import com.elthobhy.storyapp.ui.main.MainActivity.Companion.INSERT_RESULT
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -107,9 +107,10 @@ class PostStoryActivity : AppCompatActivity() {
                 ).observe(this@PostStoryActivity) {
                     when (it.status) {
                         Status.SUCCESS -> {
-                            Toast.makeText(this@PostStoryActivity, it.data, Toast.LENGTH_LONG)
-                                .show()
-                            finish()
+                            Intent().apply {
+                                setResult(INSERT_RESULT, this)
+                                finish()
+                            }
                         }
                         Status.LOADING-> dialogLoading.show()
                         Status.ERROR -> {

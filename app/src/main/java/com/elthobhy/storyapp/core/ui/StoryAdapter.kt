@@ -9,7 +9,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elthobhy.storyapp.R
@@ -64,11 +63,11 @@ class StoryAdapter : PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
             override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }

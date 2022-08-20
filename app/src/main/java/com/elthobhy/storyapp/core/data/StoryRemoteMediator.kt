@@ -14,7 +14,7 @@ import com.elthobhy.storyapp.core.utils.UserPreferences
 import kotlinx.coroutines.flow.first
 
 @OptIn(ExperimentalPagingApi::class)
-class StoryRemoteMediator (
+class StoryRemoteMediator(
     private val database: StoryDatabase,
     private val pref: UserPreferences
 ) : RemoteMediator<Int, StoryEntity>() {
@@ -32,7 +32,7 @@ class StoryRemoteMediator (
         state: PagingState<Int, StoryEntity>
     ): MediatorResult {
         val page = when (loadType) {
-            LoadType.REFRESH ->{
+            LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                 remoteKeys?.nextKey?.minus(1) ?: INITIAL_PAGE_INDEX
             }
@@ -68,7 +68,8 @@ class StoryRemoteMediator (
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = responseData.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey) }
+                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
 
                 database.remoteKeyDao().insertAll(keys)
                 database.storyDao().insertData(mapResponse)
