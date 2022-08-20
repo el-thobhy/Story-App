@@ -5,6 +5,7 @@ import androidx.paging.*
 import com.elthobhy.storyapp.core.data.local.LocalDataSource
 import com.elthobhy.storyapp.core.data.local.room.StoryDatabase
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
+import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.data.remote.model.response.vo.ApiResponse
 import com.elthobhy.storyapp.core.domain.model.Story
@@ -94,11 +95,15 @@ class Repository(
 
     override suspend fun postStory(
         imageMultipart: MultipartBody.Part,
-        description: RequestBody
-    ): LiveData<Resource<String>> {
+        description: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
+    ): LiveData<Resource<BaseResponse>> {
         return remoteDataSource.postStory(
             imageMultipart = imageMultipart,
-            description = description
+            description = description,
+            lat = lat,
+            lon = lon
         )
     }
 }

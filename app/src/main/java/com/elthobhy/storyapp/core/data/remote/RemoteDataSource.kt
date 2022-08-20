@@ -100,18 +100,22 @@ class RemoteDataSource(private val pref: UserPreferences) {
     suspend fun postStory(
         imageMultipart: MultipartBody.Part,
         description: RequestBody,
-    ): LiveData<Resource<String>> {
-        val post = MutableLiveData<Resource<String>>()
+        lat: RequestBody? = null,
+        lon: RequestBody? = null
+    ): LiveData<Resource<BaseResponse>> {
+        val post = MutableLiveData<Resource<BaseResponse>>()
         post.postValue(Resource.loading())
         val client = ApiConfig.getApiService().addStory(
             token = "Bearer ${pref.getUserToken().first()}",
             file = imageMultipart,
-            description = description
+            description = description,
+            lat = lat,
+            lon = lon
         )
         client.enqueue(object : Callback<BaseResponse> {
             override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
                 if (response.isSuccessful) {
-                    post.postValue(Resource.success(response.body()?.message))
+                    post.postValue(Resource.success(response.body()))
                 } else {
                     val error = Gson().fromJson(
                         response.errorBody()?.charStream(),

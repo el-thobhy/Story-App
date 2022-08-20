@@ -2,6 +2,7 @@ package com.elthobhy.storyapp.core.domain.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
+import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.repository.RepositoryInterface
 import com.elthobhy.storyapp.core.utils.vo.Resource
@@ -26,8 +27,10 @@ class StoryInteraction(private val repository: RepositoryInterface): StoryUsecas
 
     override suspend fun postStory(
         imageMultipart: MultipartBody.Part,
-        description: RequestBody
-    ): LiveData<Resource<String>> {
-        return repository.postStory(imageMultipart, description)
+        description: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
+    ): LiveData<Resource<BaseResponse>> {
+        return repository.postStory(imageMultipart, description, lat, lon)
     }
 }

@@ -116,11 +116,6 @@ class MainActivity : AppCompatActivity() {
         dialogError.dismiss()
     }
 
-    override fun onResume() {
-        super.onResume()
-        reGetStory()
-    }
-
     companion object {
         const val INSERT_RESULT = 200
     }

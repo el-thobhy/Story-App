@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toEndOf="@id/posting_image"
             android:layout_margin="20dp"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="100dp"
             android:textColor="@color/black"
             android:textColorHint="@android:color/darker_gray"
             android:hint="@string/description"
@@ -71,16 +71,55 @@
             />
         <com.elthobhy.storyapp.ui.customview.Button
             android:id="@+id/button_upload"
-            app:layout_constraintTop_toBottomOf="@id/edit_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/il_location"
+            app:layout_constraintStart_toStartOf="@id/posting_image"
+            app:layout_constraintEnd_toStartOf="@id/il_location"
+            app:layout_constraintBottom_toBottomOf="@id/il_location"
             android:textAllCaps="false"
-            android:layout_marginTop="16dp"
             android:text="@string/upload"
             android:textColor="@color/white"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/il_location"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="10dp"
+            android:hint="@string/location_add"
+            android:enabled="false"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_description"
+            app:layout_constraintStart_toEndOf="@+id/button_upload">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_location"
+                android:layout_width="match_parent"
+                android:backgroundTint="#F3EFEF"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_light"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/ic_search_location"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:theme="@style/IconColor"
+            android:src="@drawable/ic_baseline_add_location_alt_24"
+            app:layout_constraintBottom_toBottomOf="@+id/il_location"
+            app:layout_constraintStart_toEndOf="@+id/il_location"
+            app:layout_constraintTop_toTopOf="@+id/il_location"
+            app:layout_constraintEnd_toEndOf="@id/posting_image"
+            android:contentDescription="@string/add_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
