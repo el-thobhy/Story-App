@@ -14,6 +14,7 @@ import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
 import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityMainBinding
+import com.elthobhy.storyapp.ui.maps.MapsActivity
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
 import org.koin.android.ext.android.inject
@@ -90,6 +91,10 @@ class MainActivity : AppCompatActivity() {
                     launcherInsertStory.launch(it)
                 }
             }
+            fabMaps.setOnClickListener {
+                startActivity(Intent(this@MainActivity,MapsActivity::class.java))
+            }
+
         }
     }
 

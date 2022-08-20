@@ -51,4 +51,6 @@
     <string name="invalid_email">Invalid Email Format</string>
     <string name="invalid_password">At Least 6 Characters</string>
     <string name="retry">Retry</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="show_map">Show Map</string>
 </resources>

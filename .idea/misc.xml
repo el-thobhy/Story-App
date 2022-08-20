@@ -18,7 +18,8 @@
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.1140625" />
         <entry key="app/src/main/res/layout/activity_post_story.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.19583333333333333" />
