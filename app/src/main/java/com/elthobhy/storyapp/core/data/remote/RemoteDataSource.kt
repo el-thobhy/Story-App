@@ -3,8 +3,6 @@ package com.elthobhy.storyapp.core.data.remote
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import com.elthobhy.storyapp.core.data.local.room.StoryDao
 import com.elthobhy.storyapp.core.data.remote.model.request.LoginRequest
 import com.elthobhy.storyapp.core.data.remote.model.request.RegisterRequest
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
@@ -26,7 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RemoteDataSource(private val pref: UserPreferences, private val dao: StoryDao) {
+class RemoteDataSource(private val pref: UserPreferences) {
 
     fun login(email: String, passwd: String): LiveData<Resource<String>> {
         val auth = MutableLiveData<Resource<String>>()
@@ -85,14 +83,13 @@ class RemoteDataSource(private val pref: UserPreferences, private val dao: Story
     }
 
     suspend fun getStories(): Flow<ApiResponse<List<ListStoryItem>>> {
-        return flow<ApiResponse<List<ListStoryItem>>> {
+        return flow {
             try {
                 val response = ApiConfig.getApiService().getStories(
                     token = "Bearer ${pref.getUserToken().first()}"
                 )
                 val listStory = response.listStory
                 emit(ApiResponse.success(listStory))
-                Log.e("remote", "getStories: $response" )
             }catch (e: Exception) {
                 Log.d("remoteData", "getStories: ${e.message}")
                 emit(ApiResponse.error(e.message.toString()))

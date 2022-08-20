@@ -50,4 +50,5 @@
     <string name="image_loading">Image Loading</string>
     <string name="invalid_email">Invalid Email Format</string>
     <string name="invalid_password">At Least 6 Characters</string>
+    <string name="retry">Retry</string>
 </resources>

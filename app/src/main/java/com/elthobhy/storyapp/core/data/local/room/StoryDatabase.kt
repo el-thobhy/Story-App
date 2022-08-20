@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.elthobhy.storyapp.core.data.local.entity.StoryEntity
 
-@Database(entities = [StoryEntity::class], version = 1, exportSchema = false)
+@Database(entities = [StoryEntity::class, RemoteKeys::class], version = 1, exportSchema = false)
 abstract class StoryDatabase: RoomDatabase() {
     abstract fun storyDao(): StoryDao
+    abstract fun remoteKeyDao(): RemoteKeysDao
 
     companion object {
         @Volatile

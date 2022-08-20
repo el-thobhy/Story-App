@@ -7,16 +7,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.elthobhy.storyapp.core.ui.LoadingStateAdapter
 import com.elthobhy.storyapp.core.ui.StoryAdapter
-import com.elthobhy.storyapp.core.utils.DataMapper
 import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
 import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityMainBinding
 import com.elthobhy.storyapp.ui.posting.PostStoryActivity
 import com.elthobhy.storyapp.ui.settings.SettingsActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -43,6 +41,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpRv() {
+        binding.rvStories.adapter = storyAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                storyAdapter.retry()
+            }
+        )
         binding.rvStories.apply {
             setHasFixedSize(true)
             layoutManager =
@@ -54,7 +57,9 @@ class MainActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     dialogLoading.dismiss()
                     if (it.data != null) {
-                        storyAdapter.submitList(it.data)
+                        lifecycleScope.launchWhenCreated {
+                            storyAdapter.submitData(it.data)
+                        }
                     }
                 }
                 Status.LOADING -> {
@@ -99,7 +104,9 @@ class MainActivity : AppCompatActivity() {
             if (it.status == Status.SUCCESS) {
                 dialogLoading.dismiss()
                 if (it.data != null) {
-                    storyAdapter.submitList(it.data)
+                    lifecycleScope.launch {
+                        storyAdapter.submitData(it.data)
+                    }
                 }
             }
         }

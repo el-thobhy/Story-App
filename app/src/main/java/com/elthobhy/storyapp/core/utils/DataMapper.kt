@@ -1,5 +1,7 @@
 package com.elthobhy.storyapp.core.utils
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.elthobhy.storyapp.core.data.local.entity.StoryEntity
 import com.elthobhy.storyapp.core.data.remote.model.response.ListStoryItem
 import com.elthobhy.storyapp.core.domain.model.Story
@@ -20,6 +22,20 @@ object DataMapper {
             mapTo.add(listTo)
         }
         return mapTo
+    }
+
+    fun mapPagingEntityToDomain(input: PagingData<StoryEntity>): PagingData<Story> {
+        return input.map {
+            Story(
+                name = it.name,
+                createdAt = it.createdAt,
+                description = it.description,
+                id = it.id,
+                lat = it.lat,
+                lon = it.lon,
+                photoUrl = it.photoUrl
+            )
+        }
     }
 
     fun mapResponseToEntity(input: List<ListStoryItem>): List<StoryEntity>{

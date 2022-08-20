@@ -10,6 +10,7 @@ import com.elthobhy.storyapp.core.data.local.room.StoryDatabase
 import com.elthobhy.storyapp.core.data.remote.network.ApiConfig
 import com.elthobhy.storyapp.core.data.remote.RemoteDataSource
 import com.elthobhy.storyapp.core.domain.repository.RepositoryInterface
+import com.elthobhy.storyapp.core.ui.LoadingStateAdapter
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import org.koin.android.ext.koin.androidContext
@@ -24,12 +25,14 @@ val preferences = module {
 }
 
 val repository = module {
-    single { RemoteDataSource(get(),get()) }
+    single { RemoteDataSource(get()) }
     single { LocalDataSource(get()) }
-    single<RepositoryInterface> { Repository(get(),get()) }
+    single<RepositoryInterface> { Repository(get(),get(),get(),get()) }
     single { StoryDatabase.getInstance(get()) }
     factory { get<StoryDatabase>().storyDao() }
+    factory { get<StoryDatabase>().remoteKeyDao() }
 }
 val adapter = module {
     single { StoryAdapter() }
+    single { LoadingStateAdapter(get()) }
 }
