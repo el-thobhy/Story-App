@@ -1,10 +1,7 @@
 package com.elthobhy.storyapp
 
 import android.app.Application
-import com.elthobhy.storyapp.core.di.adapter
-import com.elthobhy.storyapp.core.di.networking
-import com.elthobhy.storyapp.core.di.preferences
-import com.elthobhy.storyapp.core.di.repository
+import com.elthobhy.storyapp.core.di.*
 import com.elthobhy.storyapp.di.useCaseModule
 import com.elthobhy.storyapp.di.viewModel
 import org.koin.android.ext.koin.androidContext
