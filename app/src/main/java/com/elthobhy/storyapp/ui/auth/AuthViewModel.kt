@@ -10,10 +10,6 @@ import kotlinx.coroutines.launch
 class AuthViewModel(private val pref: UserPreferences, private val useCase: StoryUsecase) :
     ViewModel() {
 
-    fun login(email: String, passwd: String) = useCase.getDataLogin(email, passwd)
-    fun register(name: String, email: String, passwd: String) =
-        useCase.getDataRegister(name = name, email = email, passwd = passwd)
-
     fun logout() {
         val auth = MutableLiveData<Resource<String>>()
         viewModelScope.launch {

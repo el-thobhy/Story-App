@@ -1,4 +1,4 @@
-package com.elthobhy.storyapp.ui.auth
+package com.elthobhy.storyapp.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,8 @@ import com.elthobhy.storyapp.core.utils.showDialogError
 import com.elthobhy.storyapp.core.utils.showDialogLoading
 import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.databinding.ActivityLoginBinding
+import com.elthobhy.storyapp.ui.auth.AuthViewModel
+import com.elthobhy.storyapp.ui.auth.register.RegisterActivity
 import com.elthobhy.storyapp.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -18,6 +20,7 @@ import org.koin.android.ext.android.inject
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val loginViewModel by inject<LoginViewModel>()
     private val authViewModel by inject<AuthViewModel>()
     private lateinit var dialogLoading: AlertDialog
     private lateinit var dialogError: AlertDialog
@@ -40,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
                     val passwd = editPassword.text.toString()
 
                     closeKeyboard(this@LoginActivity)
-                    authViewModel.login(email = email, passwd = passwd)
+                    loginViewModel.login(email = email, passwd = passwd)
                         .observe(this@LoginActivity) {
                             when (it.status) {
                                 Status.SUCCESS -> {

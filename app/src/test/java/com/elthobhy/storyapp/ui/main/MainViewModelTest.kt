@@ -3,31 +3,24 @@ package com.elthobhy.storyapp.ui.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
-import androidx.paging.AsyncPagingDataDiffer
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
+import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.elthobhy.storyapp.DataDummy
 import com.elthobhy.storyapp.MainDispatcherRule
-import com.elthobhy.storyapp.core.data.remote.model.response.vo.ApiResponse
-import com.elthobhy.storyapp.core.di.adapter
-import com.elthobhy.storyapp.core.di.networking
-import com.elthobhy.storyapp.core.di.preferences
-import com.elthobhy.storyapp.core.di.repository
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.vo.Resource
-import com.elthobhy.storyapp.core.utils.vo.Status
-import com.elthobhy.storyapp.di.useCaseModule
-import com.elthobhy.storyapp.di.viewModel
 import com.elthobhy.storyapp.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.*
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -40,6 +33,9 @@ class MainViewModelTest {
 
     @get:Rule
     val mainDispatcherRules = MainDispatcherRule()
+
+    @Mock
+    private lateinit var observer: Observer<Resource<PagingData<Story>>>
 
     private lateinit var mainViewModel: MainViewModel
     private val dummy = DataDummy.generateDummy()
@@ -54,12 +50,13 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `When get Stories Should Not Null and Return Success`() = runTest {
+    fun `When get Stories Should Not Null and Return Success and Check LiveData change`() = runTest {
 
         val dummyStories = dummy
         val data: PagingData<Story> = StoryPagingSource.snapshot(dummyStories)
         val expectedStory = MutableLiveData<Resource<PagingData<Story>>>()
-        expectedStory.value = Resource.success(data)
+        val dummyData = Resource.success(data)
+        expectedStory.value = dummyData
         Mockito.`when`(useCase.getStories()).thenReturn(expectedStory.asFlow())
 
         val actualStories: Resource<PagingData<Story>> =
@@ -76,12 +73,15 @@ class MainViewModelTest {
         Assert.assertEquals(dummyStories, differ.snapshot())
         Assert.assertEquals(dummyStories.size, differ.snapshot().size)
         Assert.assertEquals(dummyStories[0].id, differ.snapshot()[0]?.id)
+
+        mainViewModel.getStories().observeForever(observer)
+        Mockito.verify(observer).onChanged(dummyData)
     }
 
     @Test
-    fun `when Network Error Should Return Error`() = runTest{
+    fun `when Network Error Should Return Error`() = runTest {
         val expectedStory = MutableLiveData<Resource<PagingData<Story>>>()
-        expectedStory.value = Resource.error("Error",)
+        expectedStory.value = Resource.error("Error")
         Mockito.`when`(useCase.getStories()).thenReturn(expectedStory.asFlow())
 
         val actualStories: Resource<PagingData<Story>> =

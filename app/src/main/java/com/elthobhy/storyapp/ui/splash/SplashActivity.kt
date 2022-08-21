@@ -11,7 +11,7 @@ import androidx.core.util.Pair
 import com.elthobhy.storyapp.core.utils.Constants
 import com.elthobhy.storyapp.databinding.ActivitySplashBinding
 import com.elthobhy.storyapp.ui.auth.AuthViewModel
-import com.elthobhy.storyapp.ui.auth.LoginActivity
+import com.elthobhy.storyapp.ui.auth.login.LoginActivity
 import com.elthobhy.storyapp.ui.main.MainActivity
 import org.koin.android.ext.android.inject
 

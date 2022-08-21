@@ -6,7 +6,7 @@ import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.elthobhy.storyapp.databinding.ActivitySettingsBinding
 import com.elthobhy.storyapp.ui.auth.AuthViewModel
-import com.elthobhy.storyapp.ui.auth.LoginActivity
+import com.elthobhy.storyapp.ui.auth.login.LoginActivity
 import org.koin.android.ext.android.inject
 
 class SettingsActivity : AppCompatActivity() {
