@@ -50,7 +50,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `When get Stories Should Not Null and Return Success and Check LiveData change`() = runTest {
+    fun `Get Stories Should Not Null, Return Success and Check LiveData change`() = runTest {
 
         val dummyStories = dummy
         val data: PagingData<Story> = StoryPagingSource.snapshot(dummyStories)
