@@ -11,6 +11,7 @@ import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.elthobhy.storyapp.DataDummy
 import com.elthobhy.storyapp.MainDispatcherRule
+import com.elthobhy.storyapp.core.data.remote.model.response.vo.ApiResponse
 import com.elthobhy.storyapp.core.di.adapter
 import com.elthobhy.storyapp.core.di.networking
 import com.elthobhy.storyapp.core.di.preferences
@@ -19,6 +20,7 @@ import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.vo.Resource
+import com.elthobhy.storyapp.core.utils.vo.Status
 import com.elthobhy.storyapp.di.useCaseModule
 import com.elthobhy.storyapp.di.viewModel
 import com.elthobhy.storyapp.getOrAwaitValue
@@ -74,6 +76,28 @@ class MainViewModelTest {
         Assert.assertEquals(dummyStories, differ.snapshot())
         Assert.assertEquals(dummyStories.size, differ.snapshot().size)
         Assert.assertEquals(dummyStories[0].id, differ.snapshot()[0]?.id)
+    }
+
+    @Test
+    fun `when Network Error Should Return Error`() = runTest{
+        val expectedStory = MutableLiveData<Resource<PagingData<Story>>>()
+        expectedStory.value = Resource.error("Error",)
+        Mockito.`when`(useCase.getStories()).thenReturn(expectedStory.asFlow())
+
+        val actualStories: Resource<PagingData<Story>> =
+            mainViewModel.getStories().getOrAwaitValue()
+
+        Mockito.verify(useCase).getStories()
+
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = StoryAdapter.DIFF_CALLBACK,
+            updateCallback = noopListUpdateCallback,
+            workerDispatcher = Dispatchers.Main
+        )
+        actualStories.data?.let { differ.submitData(it) }
+
+        Assert.assertNotNull(differ.snapshot())
+        Assert.assertTrue(actualStories == Resource.error("Error", null))
     }
 
     class StoryPagingSource : PagingSource<Int, LiveData<List<Story>>>() {
