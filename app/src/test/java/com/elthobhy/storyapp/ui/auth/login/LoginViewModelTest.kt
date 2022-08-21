@@ -7,7 +7,6 @@ import com.elthobhy.storyapp.DataDummy
 import com.elthobhy.storyapp.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.utils.vo.Resource
-import com.elthobhy.storyapp.core.utils.vo.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -51,8 +50,8 @@ class LoginViewModelTest{
     @Test
     fun `Login Should Not Null, Result Success and Check liveData Change`(): Unit = runTest{
         val expected = MutableLiveData<Resource<String>>()
-        val dataName = dummyLoginResponse.loginResult?.token
-        val  dataSuccess = Resource.success(dataName)
+        val getToken = dummyLoginResponse.loginResult?.token
+        val  dataSuccess = Resource.success(getToken)
         expected.value = dataSuccess
 
         `when`(useCase.getDataLogin(dummyEmail, dummyPassword)).thenReturn(expected)

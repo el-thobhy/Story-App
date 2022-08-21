@@ -1,5 +1,6 @@
 package com.elthobhy.storyapp
 
+import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResult
 import com.elthobhy.storyapp.core.domain.model.Story
@@ -31,6 +32,13 @@ object DataDummy {
 
         return LoginResponse(
             loginResult = loginResult,
+            error = false,
+            message = "success"
+        )
+    }
+
+    fun generateDummyRegisterResponse(): BaseResponse {
+        return BaseResponse(
             error = false,
             message = "success"
         )
