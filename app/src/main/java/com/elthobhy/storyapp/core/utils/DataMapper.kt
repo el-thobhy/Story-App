@@ -55,11 +55,11 @@ object DataMapper {
         return mapTo
     }
 
-    fun mapDomainToResponse(input: List<Story>): List<ListStoryItem>{
-        val mapTo = ArrayList<ListStoryItem>()
+    fun mapDomainToEntity(input: List<Story>): List<StoryEntity> {
+        val mapTo = ArrayList<StoryEntity>()
         input.map {
             val listTo = it.id?.let { it1 ->
-                ListStoryItem(
+                StoryEntity(
                     name = it.name,
                     createdAt = it.createdAt,
                     description = it.description,
@@ -74,6 +74,7 @@ object DataMapper {
             }
         }
         return mapTo
+
     }
 
 }

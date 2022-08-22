@@ -12,8 +12,10 @@ import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.ui.StoryAdapter
+import com.elthobhy.storyapp.core.utils.StoryPagingSource
+import com.elthobhy.storyapp.core.utils.noopListUpdateCallback
 import com.elthobhy.storyapp.core.utils.vo.Resource
-import com.elthobhy.storyapp.getOrAwaitValue
+import com.elthobhy.storyapp.util.LiveDataTestUtil.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -51,7 +53,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Get Stories Should Not Null, Return Success and Check LiveData change`() = runBlocking {
+    fun `when Success, Get Stories Should Not Null, Return Success and Check LiveData change`() = runBlocking {
 
         val dummyStories = dummy
         val data: PagingData<Story> = StoryPagingSource.snapshot(dummyStories)
@@ -101,27 +103,5 @@ class MainViewModelTest {
         Assert.assertTrue(actualStories == Resource.error("Error", null))
     }
 
-    class StoryPagingSource : PagingSource<Int, LiveData<List<Story>>>() {
-        companion object {
-            fun snapshot(items: List<Story>): PagingData<Story> {
-                return PagingData.from(items)
-            }
-        }
-
-        override fun getRefreshKey(state: PagingState<Int, LiveData<List<Story>>>): Int {
-            return 0
-        }
-
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<Story>>> {
-            return LoadResult.Page(emptyList(), 0, 1)
-        }
-    }
-
 }
 
-val noopListUpdateCallback = object : ListUpdateCallback {
-    override fun onInserted(position: Int, count: Int) {}
-    override fun onRemoved(position: Int, count: Int) {}
-    override fun onMoved(fromPosition: Int, toPosition: Int) {}
-    override fun onChanged(position: Int, count: Int, payload: Any?) {}
-}

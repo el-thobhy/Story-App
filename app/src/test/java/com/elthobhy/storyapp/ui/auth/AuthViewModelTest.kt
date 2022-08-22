@@ -8,7 +8,7 @@ import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.elthobhy.storyapp.core.utils.vo.Resource
-import com.elthobhy.storyapp.getOrAwaitValue
+import com.elthobhy.storyapp.util.LiveDataTestUtil.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest

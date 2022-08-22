@@ -55,6 +55,7 @@ class LoginViewModelTest{
         expected.value = dataSuccess
 
         `when`(useCase.getDataLogin(dummyEmail, dummyPassword)).thenReturn(expected)
+
         val dataActual = loginViewModel.login(dummyEmail, dummyPassword).value
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 

@@ -1,6 +1,6 @@
 package com.elthobhy.storyapp.di
 
-import com.elthobhy.storyapp.core.domain.usecase.StoryInteraction
+import com.elthobhy.storyapp.core.domain.usecase.StoryInteractionRepository
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.ui.auth.AuthViewModel
 import com.elthobhy.storyapp.ui.auth.login.LoginViewModel
@@ -20,5 +20,5 @@ val viewModel = module {
 }
 
 val useCaseModule = module {
-    factory<StoryUsecase> { StoryInteraction(get()) }
+    factory<StoryUsecase> { StoryInteractionRepository(get()) }
 }
