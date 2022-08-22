@@ -3,8 +3,8 @@ package com.elthobhy.storyapp.ui.auth
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
-import com.elthobhy.storyapp.DataDummy
-import com.elthobhy.storyapp.MainDispatcherRule
+import com.elthobhy.storyapp.util.DataDummy
+import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.utils.UserPreferences
 import com.elthobhy.storyapp.core.utils.vo.Resource

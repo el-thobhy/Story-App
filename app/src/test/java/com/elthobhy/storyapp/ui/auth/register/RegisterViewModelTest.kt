@@ -3,8 +3,8 @@ package com.elthobhy.storyapp.ui.auth.register
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.elthobhy.storyapp.DataDummy
-import com.elthobhy.storyapp.MainDispatcherRule
+import com.elthobhy.storyapp.util.DataDummy
+import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.utils.vo.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,7 +67,7 @@ class RegisterViewModelTest {
         verify(observer).onChanged(expected.value)
     }
     @Test
-    fun `Fail to Register and data Resource not Null and Result Error`() = runTest{
+    fun `Fail to Register and data Resource is Null and Status Result Error`() = runTest{
         val expected = MutableLiveData<Resource<String>>()
         expected.value = Resource.error("Error", null)
         `when`(useCase.getDataRegister(dummyName, dummyEmail, dummyPassword)).thenReturn(expected)
@@ -75,7 +75,7 @@ class RegisterViewModelTest {
         val dataActual = registerViewModel.register(dummyName ,dummyEmail, dummyPassword).value
         verify(useCase).getDataRegister(dummyName, dummyEmail, dummyPassword)
 
-        Assert.assertNotNull(dataActual)
-        Assert.assertTrue(expected.value == dataActual)
+        Assert.assertNull(dataActual?.data)
+        Assert.assertTrue(expected.value?.status == dataActual?.status)
     }
 }

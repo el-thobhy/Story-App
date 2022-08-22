@@ -1,4 +1,4 @@
-package com.elthobhy.storyapp
+package com.elthobhy.storyapp.util
 
 import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
@@ -6,6 +6,9 @@ import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResult
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.utils.DataMapper
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 object DataDummy {
     fun generateDummyStoriesResponse(): AllStoriesResponse {
@@ -63,6 +66,23 @@ object DataDummy {
     }
 
     fun generateDummyRegisterResponse(): BaseResponse {
+        return BaseResponse(
+            error = false,
+            message = "success"
+        )
+    }
+
+    fun generateDummyMultipartFile(): MultipartBody.Part {
+        val dummyText = "text"
+        return MultipartBody.Part.create(dummyText.toRequestBody())
+    }
+
+    fun generateDummyRequestBody(): RequestBody {
+        val dummyText = "text"
+        return dummyText.toRequestBody()
+    }
+
+    fun generateDummyFileUploadResponse(): BaseResponse {
         return BaseResponse(
             error = false,
             message = "success"

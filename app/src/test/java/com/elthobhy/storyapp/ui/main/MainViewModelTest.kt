@@ -7,8 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
 import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.elthobhy.storyapp.DataDummy
-import com.elthobhy.storyapp.MainDispatcherRule
+import com.elthobhy.storyapp.util.DataDummy
+import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.ui.StoryAdapter

@@ -3,8 +3,8 @@ package com.elthobhy.storyapp.ui.auth.login
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.elthobhy.storyapp.DataDummy
-import com.elthobhy.storyapp.MainDispatcherRule
+import com.elthobhy.storyapp.util.DataDummy
+import com.elthobhy.storyapp.util.MainDispatcherRule
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.utils.vo.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,7 +66,7 @@ class LoginViewModelTest{
     }
 
     @Test
-    fun `Fail to Login and data Resource not Null and Result Error`() = runTest{
+    fun `Fail to Login and data Resource is Null and Status Result Error`() = runTest{
         val expected = MutableLiveData<Resource<String>>()
         expected.value = Resource.error("Error", null)
 
@@ -74,7 +74,7 @@ class LoginViewModelTest{
         val dataActual = loginViewModel.login(dummyEmail, dummyPassword).value
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 
-        Assert.assertNotNull(dataActual)
+        Assert.assertNull(dataActual?.data)
         Assert.assertTrue(expected.value?.status == dataActual?.status)
     }
 }

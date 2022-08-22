@@ -1,4 +1,4 @@
-package com.elthobhy.storyapp
+package com.elthobhy.storyapp.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
