@@ -11,7 +11,7 @@ import okhttp3.RequestBody
 
 interface RepositoryInterface {
     fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>>
-    suspend fun getToken(token: String)
+    suspend fun saveToken(token: String): String
     fun getDataRegister(name: String, email: String, passwd: String): LiveData<Resource<String>>
     fun getStories(): Flow<Resource<PagingData<Story>>>
     fun getStoriesLocation(): Flow<Resource<List<Story>>>

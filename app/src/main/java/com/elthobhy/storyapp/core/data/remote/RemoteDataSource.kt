@@ -132,8 +132,8 @@ class RemoteDataSource(private val pref: UserPreferences) {
         return post
     }
 
-    suspend fun saveUserKey(token: String) {
+    suspend fun saveUserKey(token: String): String =
         pref.saveUserToken(token)
-    }
+
 
 }

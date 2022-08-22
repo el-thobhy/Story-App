@@ -16,6 +16,7 @@ import com.elthobhy.storyapp.core.utils.vo.Resource
 import com.elthobhy.storyapp.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
@@ -50,7 +51,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Get Stories Should Not Null, Return Success and Check LiveData change`() = runTest {
+    fun `Get Stories Should Not Null, Return Success and Check LiveData change`() = runBlocking {
 
         val dummyStories = dummy
         val data: PagingData<Story> = StoryPagingSource.snapshot(dummyStories)

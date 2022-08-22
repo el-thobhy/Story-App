@@ -17,16 +17,18 @@ class UserPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun saveUserToken(userToken: String) {
+    suspend fun saveUserToken(userToken: String): String {
         dataStore.edit { pref ->
             pref[token] = userToken
         }
+        return userToken
     }
 
-    suspend fun deleteUser() {
+    suspend fun deleteUser(): String {
         dataStore.edit { pref ->
             pref.remove(token)
         }
+        return token.name
     }
 
     companion object {

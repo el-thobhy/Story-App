@@ -55,11 +55,11 @@ class LoginViewModelTest{
         expected.value = dataSuccess
 
         `when`(useCase.getDataLogin(dummyEmail, dummyPassword)).thenReturn(expected)
-        val dataActual = loginViewModel.login(dummyEmail, dummyPassword).value?.data
+        val dataActual = loginViewModel.login(dummyEmail, dummyPassword).value
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertEquals(dummyLoginResponse.loginResult?.token, dataActual)
+        Assert.assertTrue(dataSuccess.status == dataActual?.status)
 
         loginViewModel.login(dummyEmail, dummyPassword).observeForever(observer)
         verify(observer).onChanged(dataSuccess)
@@ -75,6 +75,6 @@ class LoginViewModelTest{
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertEquals(Resource.error("Error",null), dataActual)
+        Assert.assertTrue(Resource.error("Error",null).status == dataActual?.status)
     }
 }

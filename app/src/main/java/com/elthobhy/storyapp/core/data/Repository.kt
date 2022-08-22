@@ -31,9 +31,8 @@ class Repository(
         return remoteDataSource.login(email, passwd)
     }
 
-    override suspend fun getToken(token: String) {
-        return remoteDataSource.saveUserKey(token)
-    }
+    override suspend fun saveToken(token: String): String = remoteDataSource.saveUserKey(token)
+
 
     override fun getDataRegister(
         name: String,

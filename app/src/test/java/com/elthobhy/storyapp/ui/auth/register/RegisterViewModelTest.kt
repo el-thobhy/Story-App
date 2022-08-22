@@ -54,8 +54,8 @@ class RegisterViewModelTest {
         val dataMessage = dummyRegisterResponse.message
         val dataSuccess = Resource.success(dataMessage)
         expected.value = dataSuccess
-
         `when`(useCase.getDataRegister(dummyName, dummyEmail, dummyPassword)).thenReturn(expected)
+
         val dataActual =
             registerViewModel.register(dummyName, dummyEmail, dummyPassword).value?.data
         verify(useCase).getDataRegister(dummyName, dummyEmail, dummyPassword)
@@ -70,8 +70,8 @@ class RegisterViewModelTest {
     fun `Fail to Register and data Resource not Null and Result Error`() = runTest{
         val expected = MutableLiveData<Resource<String>>()
         expected.value = Resource.error("Error", null)
-
         `when`(useCase.getDataRegister(dummyName, dummyEmail, dummyPassword)).thenReturn(expected)
+
         val dataActual = registerViewModel.register(dummyName ,dummyEmail, dummyPassword).value
         verify(useCase).getDataRegister(dummyName, dummyEmail, dummyPassword)
 

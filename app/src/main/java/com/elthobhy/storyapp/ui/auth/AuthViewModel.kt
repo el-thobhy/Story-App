@@ -10,17 +10,18 @@ import kotlinx.coroutines.launch
 class AuthViewModel(private val pref: UserPreferences, private val useCase: StoryUsecase) :
     ViewModel() {
 
-    fun logout() {
+    fun logout(): MutableLiveData<Resource<String>> {
         val auth = MutableLiveData<Resource<String>>()
         viewModelScope.launch {
-            pref.deleteUser()
-            auth.postValue(Resource.success(null))
+            if(pref.deleteUser().isEmpty()) auth.postValue(Resource.success(null))
+            else auth.postValue(Resource.error("Error"))
         }
+        return auth
     }
 
-    suspend fun saveKey(token: String) {
-        useCase.getToken(token)
-    }
+    suspend fun saveKey(token: String): String =
+        useCase.saveToken(token)
+
 
     fun getToken() = pref.getUserToken().asLiveData()
 }
