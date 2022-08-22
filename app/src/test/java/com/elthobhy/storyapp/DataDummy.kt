@@ -1,11 +1,36 @@
 package com.elthobhy.storyapp
 
+import com.elthobhy.storyapp.core.data.remote.model.response.AllStoriesResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResponse
 import com.elthobhy.storyapp.core.data.remote.model.response.LoginResult
 import com.elthobhy.storyapp.core.domain.model.Story
+import com.elthobhy.storyapp.core.utils.DataMapper
 
 object DataDummy {
+    fun generateDummyStoriesResponse(): AllStoriesResponse {
+        val error = false
+        val message = "Stories fetched successfully"
+        val listStory = arrayListOf<Story>()
+
+        for (i in 0 until 10) {
+            val story = Story(
+                id = "story-FvU4u0Vp2S3PMsFg",
+                photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1641623658595_dummy-pic.png",
+                createdAt = "2022-01-08T06:34:18.598Z",
+                name = "Dimas",
+                description = "Lorem Ipsum",
+                lon = -16.002,
+                lat = -10.212
+            )
+
+            listStory.add(story)
+        }
+        val listResponse = DataMapper.mapDomainToResponse(listStory)
+
+        return AllStoriesResponse(listStory = listResponse, error = error, message = message)
+    }
+
     fun generateDummy(): List<Story> {
         val list = ArrayList<Story>()
         for (i in 0..10) {

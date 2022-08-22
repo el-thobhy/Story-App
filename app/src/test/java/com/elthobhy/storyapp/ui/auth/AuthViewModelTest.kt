@@ -126,6 +126,6 @@ class AuthViewModelTest {
         Mockito.verify(userPreferences).deleteUser()
 
         Assert.assertNull(actual?.data)
-        Assert.assertEquals(expected.value?.data, actual?.data)
+        Assert.assertTrue(expected.value?.data == actual?.data)
     }
 }

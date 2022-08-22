@@ -54,4 +54,26 @@ object DataMapper {
         }
         return mapTo
     }
+
+    fun mapDomainToResponse(input: List<Story>): List<ListStoryItem>{
+        val mapTo = ArrayList<ListStoryItem>()
+        input.map {
+            val listTo = it.id?.let { it1 ->
+                ListStoryItem(
+                    name = it.name,
+                    createdAt = it.createdAt,
+                    description = it.description,
+                    id = it1,
+                    lat = it.lat,
+                    lon = it.lon,
+                    photoUrl = it.photoUrl
+                )
+            }
+            if (listTo != null) {
+                mapTo.add(listTo)
+            }
+        }
+        return mapTo
+    }
+
 }

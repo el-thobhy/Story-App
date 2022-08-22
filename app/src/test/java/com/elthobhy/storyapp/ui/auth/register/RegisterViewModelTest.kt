@@ -61,10 +61,10 @@ class RegisterViewModelTest {
         verify(useCase).getDataRegister(dummyName, dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertEquals(dummyRegisterResponse.message, dataActual)
+        Assert.assertEquals(expected.value?.data, dataActual)
 
         registerViewModel.register(dummyName, dummyEmail, dummyPassword).observeForever(observer)
-        verify(observer).onChanged(dataSuccess)
+        verify(observer).onChanged(expected.value)
     }
     @Test
     fun `Fail to Register and data Resource not Null and Result Error`() = runTest{
@@ -76,6 +76,6 @@ class RegisterViewModelTest {
         verify(useCase).getDataRegister(dummyName, dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertEquals(Resource.error("Error",null), dataActual)
+        Assert.assertTrue(expected.value == dataActual)
     }
 }

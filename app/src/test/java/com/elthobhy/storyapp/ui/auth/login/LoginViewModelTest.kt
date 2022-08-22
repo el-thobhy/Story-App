@@ -59,10 +59,10 @@ class LoginViewModelTest{
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertTrue(dataSuccess.status == dataActual?.status)
+        Assert.assertTrue(expected.value?.status == dataActual?.status)
 
         loginViewModel.login(dummyEmail, dummyPassword).observeForever(observer)
-        verify(observer).onChanged(dataSuccess)
+        verify(observer).onChanged(expected.value)
     }
 
     @Test
@@ -75,6 +75,6 @@ class LoginViewModelTest{
         verify(useCase).getDataLogin(dummyEmail, dummyPassword)
 
         Assert.assertNotNull(dataActual)
-        Assert.assertTrue(Resource.error("Error",null).status == dataActual?.status)
+        Assert.assertTrue(expected.value?.status == dataActual?.status)
     }
 }
