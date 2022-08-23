@@ -27,7 +27,7 @@ val preferences = module {
 val repository = module {
     single { RemoteDataSource(get()) }
     single { LocalDataSource(get()) }
-    single<RepositoryInterface> { Repository(get(),get(),get(),get()) }
+    single<RepositoryInterface> { Repository(get(), get(), get(), get()) }
     single { StoryDatabase.getInstance(get()) }
     factory { get<StoryDatabase>().storyDao() }
     factory { get<StoryDatabase>().remoteKeyDao() }

@@ -1,21 +1,20 @@
 package com.elthobhy.storyapp.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
-import androidx.paging.*
-import androidx.recyclerview.widget.ListUpdateCallback
-import com.elthobhy.storyapp.util.DataDummy
-import com.elthobhy.storyapp.util.MainDispatcherRule
+import androidx.paging.AsyncPagingDataDiffer
+import androidx.paging.PagingData
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.domain.usecase.StoryUsecase
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.StoryPagingSource
 import com.elthobhy.storyapp.core.utils.noopListUpdateCallback
 import com.elthobhy.storyapp.core.utils.vo.Resource
+import com.elthobhy.storyapp.util.DataDummy
 import com.elthobhy.storyapp.util.LiveDataTestUtil.getOrAwaitValue
+import com.elthobhy.storyapp.util.MainDispatcherRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking

@@ -87,12 +87,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             }
             ivPost.setOnClickListener {
-                Intent(this@MainActivity, PostStoryActivity::class.java).also{
+                Intent(this@MainActivity, PostStoryActivity::class.java).also {
                     launcherInsertStory.launch(it)
                 }
             }
             fabMaps.setOnClickListener {
-                startActivity(Intent(this@MainActivity,MapsActivity::class.java))
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
             }
 
         }
@@ -100,11 +100,12 @@ class MainActivity : AppCompatActivity() {
 
     private val launcherInsertStory = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){
-        if(it.resultCode == INSERT_RESULT){
+    ) {
+        if (it.resultCode == INSERT_RESULT) {
             reGetStory()
         }
     }
+
     private fun reGetStory() {
         getData()
         setUpRv()

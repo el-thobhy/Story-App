@@ -6,10 +6,19 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/drawable/bg_button_outline.xml" value="0.1" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/drawable/bg_edit_text.xml" value="0.1" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_camera.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_detail.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_login.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_post_story.xml" value="0.25" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/activity_settings.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/item_loading.xml" value="0.22" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/item_story.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/layout_dialog_error.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/layout_dialog_loading.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/stack_app_widget.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/Story-App/app/src/main/res/layout/widget_item.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/drawable/bg_button.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bg_button_disabled.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bg_button_outline.xml" value="0.1" />

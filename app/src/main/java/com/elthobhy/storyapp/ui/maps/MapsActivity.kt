@@ -84,7 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 when (resource.status) {
                     Status.SUCCESS -> {
                         dialogLoading.dismiss()
-                        if(story.lat != null){
+                        if (story.lat != null) {
                             val latLng = LatLng(story.lat, story.lon as Double)
                             val addresses = getAddress(story.lat, story.lon)
                             mMap.addMarker(
@@ -112,9 +112,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     Status.LOADING -> dialogLoading.show()
                     Status.ERROR -> {
                         dialogLoading.dismiss()
-                        dialogError = showDialogError(this,resource.message.toString())
+                        dialogError = showDialogError(this, resource.message.toString())
                         dialogError.show()
-                        Log.e("mapsActivity", "addLocationMarker: ${resource.message}" )
+                        Log.e("mapsActivity", "addLocationMarker: ${resource.message}")
                     }
                 }
             }
@@ -125,11 +125,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         var address: String? = null
         val geocoder = Geocoder(this, Locale.getDefault())
         try {
-            val list = geocoder.getFromLocation(lat, lon,1)
-            if(list != null && list.size != 0){
+            val list = geocoder.getFromLocation(lat, lon, 1)
+            if (list != null && list.size != 0) {
                 address = list[0].getAddressLine(0)
             }
-        }catch (e: IOException){
+        } catch (e: IOException) {
             e.printStackTrace()
         }
         return address

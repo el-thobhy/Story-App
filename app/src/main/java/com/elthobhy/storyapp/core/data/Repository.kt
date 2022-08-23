@@ -26,7 +26,7 @@ class Repository(
     private val preferences: UserPreferences,
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
-    ) : RepositoryInterface {
+) : RepositoryInterface {
     override fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> {
         return remoteDataSource.login(email, passwd)
     }
@@ -44,7 +44,7 @@ class Repository(
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getStories(): Flow<Resource<PagingData<Story>>> =
-        object : NetworkBoundResource<PagingData<Story>, List<ListStoryItem>>(){
+        object : NetworkBoundResource<PagingData<Story>, List<ListStoryItem>>() {
             override suspend fun loadFromDb(): Flow<PagingData<Story>> {
                 return Pager(
                     config = PagingConfig(
@@ -73,7 +73,7 @@ class Repository(
         }.asFlow()
 
     override fun getStoriesLocation(): Flow<Resource<List<Story>>> =
-        object : NetworkBoundResource<List<Story>, List<ListStoryItem>>(){
+        object : NetworkBoundResource<List<Story>, List<ListStoryItem>>() {
             override suspend fun loadFromDb(): Flow<List<Story>> {
                 return localDataSource.getStoriesLocation().map { DataMapper.mapEntityToDomain(it) }
 

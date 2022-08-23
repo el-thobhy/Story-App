@@ -38,7 +38,7 @@ object DataMapper {
         }
     }
 
-    fun mapResponseToEntity(input: List<ListStoryItem>): List<StoryEntity>{
+    fun mapResponseToEntity(input: List<ListStoryItem>): List<StoryEntity> {
         val mapTo = ArrayList<StoryEntity>()
         input.map {
             val listTo = StoryEntity(
@@ -53,28 +53,6 @@ object DataMapper {
             mapTo.add(listTo)
         }
         return mapTo
-    }
-
-    fun mapDomainToEntity(input: List<Story>): List<StoryEntity> {
-        val mapTo = ArrayList<StoryEntity>()
-        input.map {
-            val listTo = it.id?.let { it1 ->
-                StoryEntity(
-                    name = it.name,
-                    createdAt = it.createdAt,
-                    description = it.description,
-                    id = it1,
-                    lat = it.lat,
-                    lon = it.lon,
-                    photoUrl = it.photoUrl
-                )
-            }
-            if (listTo != null) {
-                mapTo.add(listTo)
-            }
-        }
-        return mapTo
-
     }
 
 }

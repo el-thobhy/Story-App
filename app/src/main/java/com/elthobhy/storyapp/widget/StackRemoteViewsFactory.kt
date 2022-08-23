@@ -39,7 +39,7 @@ internal class StackRemoteViewsFactory(private val context: Context) :
                         token = "Bearer ${
                             pref.getUserToken().first()
                         }"
-                    ).listStory?.let {
+                    ).listStory.let {
                         mWidgetItems.addAll(
                             it
                         )

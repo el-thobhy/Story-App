@@ -48,7 +48,7 @@ class LoginViewModelTest{
     }
 
     @Test
-    fun `Login Should Not Null, Result Success and Check liveData Change`(): Unit = runTest{
+    fun `When login success, Login Should Not Null, Result Success and Check liveData Change`(): Unit = runTest{
         val expected = MutableLiveData<Resource<String>>()
         val getToken = dummyLoginResponse.loginResult?.token
         val  dataSuccess = Resource.success(getToken)
@@ -67,7 +67,7 @@ class LoginViewModelTest{
     }
 
     @Test
-    fun `Fail to Login and data Resource is Null and Status Result Error`() = runTest{
+    fun `When Fail to Login and data Resource is Null and Status Result Error`() = runTest{
         val expected = MutableLiveData<Resource<String>>()
         expected.value = Resource.error("Error", null)
 

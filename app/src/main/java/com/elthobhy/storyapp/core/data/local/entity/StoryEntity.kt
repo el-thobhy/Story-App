@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "story")
-data class StoryEntity (
+data class StoryEntity(
     @ColumnInfo(name = "photoUrl")
     val photoUrl: String? = null,
 

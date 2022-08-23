@@ -22,7 +22,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
+/**
+ * UI Testing in DetailActivityTest
+ * Initial condition: User already logged in
+ */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class DetailActivityTest{
@@ -58,6 +61,8 @@ class DetailActivityTest{
         Espresso.onView(ViewMatchers.withId(R.id.toolbar))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.tv_name))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.tv_location))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.create_at))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

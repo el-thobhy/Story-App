@@ -70,7 +70,7 @@ internal class LocationStoryViewModelTest {
         val dataActual = locationViewModel.getStories().getOrAwaitValue()
         Mockito.verify(useCase).getStoriesLocation()
 
-        Assert.assertNotNull(dataActual)
+        Assert.assertNull(dataActual.data)
         Assert.assertTrue(expected.value?.status == dataActual.status)
     }
 

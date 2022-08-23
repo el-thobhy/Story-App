@@ -43,7 +43,8 @@ class DetailActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_baseline_broken_image_24)
                 .into(imageDetail)
             tvName.text = data?.name
-            createAt.text = data?.createdAt?.let { DateFormatter.formatDate(it, TimeZone.getDefault().id) }
+            createAt.text =
+                data?.createdAt?.let { DateFormatter.formatDate(it, TimeZone.getDefault().id) }
             tvDescription.text = data?.description
         }
     }

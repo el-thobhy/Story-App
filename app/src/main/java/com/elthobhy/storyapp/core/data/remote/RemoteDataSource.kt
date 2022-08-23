@@ -90,7 +90,7 @@ class RemoteDataSource(private val pref: UserPreferences) {
                 )
                 val listStory = response.listStory
                 emit(ApiResponse.success(listStory))
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.d("remoteData", "getStories: ${e.message}")
                 emit(ApiResponse.error(e.message.toString()))
             }

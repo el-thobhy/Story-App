@@ -24,8 +24,6 @@ import com.elthobhy.storyapp.ui.camera.CameraActivity
 import com.elthobhy.storyapp.ui.main.MainActivity.Companion.INSERT_RESULT
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -73,7 +71,7 @@ class PostStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermission(permission: String): Boolean{
+    private fun checkPermission(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             permission
@@ -84,15 +82,15 @@ class PostStoryActivity : AppCompatActivity() {
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
-                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if(location != null){
-                        setTextLocation(location)
-                    }else{
-                        dialog = showDialogError(this,getString(R.string.location_error))
-                        dialog.show()
-                    }
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    setTextLocation(location)
+                } else {
+                    dialog = showDialogError(this, getString(R.string.location_error))
+                    dialog.show()
                 }
-        }else{
+            }
+        } else {
             requestPermissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -105,8 +103,8 @@ class PostStoryActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
-        ){permission ->
-            when{
+        ) { permission ->
+            when {
                 permission[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
                     getMyLocation()
                 }
@@ -138,8 +136,10 @@ class PostStoryActivity : AppCompatActivity() {
                     file.name,
                     requestImageFile
                 )
-            val lat = if(location != null) location?.latitude.toString().toRequestBody("text/plain".toMediaType()) else null
-            val lon = if(location != null) location?.longitude.toString().toRequestBody("text/plain".toMediaType()) else null
+            val lat = if (location != null) location?.latitude.toString()
+                .toRequestBody("text/plain".toMediaType()) else null
+            val lon = if (location != null) location?.longitude.toString()
+                .toRequestBody("text/plain".toMediaType()) else null
 
             lifecycleScope.launch {
                 postingViewModel.postingStory(
@@ -155,7 +155,7 @@ class PostStoryActivity : AppCompatActivity() {
                                 finish()
                             }
                         }
-                        Status.LOADING-> dialogLoading.show()
+                        Status.LOADING -> dialogLoading.show()
                         Status.ERROR -> {
                             dialogLoading.dismiss()
                             dialog = showDialogError(this@PostStoryActivity, it.message)
