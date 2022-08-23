@@ -58,7 +58,7 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
     // DataStore
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -103,4 +103,14 @@ dependencies {
 
     testImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1" //main coroutine rule
+
+    //mock web server
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.9.3"
+    androidTestImplementation "com.squareup.okhttp3:okhttp-tls:4.9.3"
+
+    //espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 }

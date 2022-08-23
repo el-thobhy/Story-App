@@ -7,8 +7,8 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
+import com.elthobhy.storyapp.core.data.Repository
 import com.elthobhy.storyapp.core.data.remote.model.response.BaseResponse
-import com.elthobhy.storyapp.core.domain.FakeRepository
 import com.elthobhy.storyapp.core.domain.model.Story
 import com.elthobhy.storyapp.core.ui.StoryAdapter
 import com.elthobhy.storyapp.core.utils.StoryPagingSource
@@ -66,7 +66,7 @@ class StoryInteractionRepositoryTest {
     private val dummyLon = DataDummy.generateDummyRequestBody()
 
     @Mock
-    private lateinit var repository: FakeRepository
+    private lateinit var repository: Repository
 
     private lateinit var storyInteractionRepository: StoryInteractionRepository
 

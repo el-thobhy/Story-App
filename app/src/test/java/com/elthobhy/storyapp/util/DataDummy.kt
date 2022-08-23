@@ -16,7 +16,7 @@ object DataDummy {
         val list = ArrayList<Story>()
         for (i in 0..10) {
             val listStory = Story(
-                name = "Budi",
+                name = "lorem ipsum",
                 createdAt = "2022-01-08T06:34:18.598Z",
                 description = "Lorem Ipsum",
                 id = "story-FvU4u0Vp2S3PMsFg",
@@ -32,7 +32,7 @@ object DataDummy {
     fun generateDummyLoginResponse(): LoginResponse {
         val loginResult = LoginResult(
             userId = "user-yj5pc_LARC_AgK61",
-            name = "Arif Faizin",
+            name = "lorem ipsum",
             token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXlqNXBjX0xBUkNfQWdLNjEiLCJpYXQiOjE2NDE3OTk5NDl9.flEMaQ7zsdYkxuyGbiXjEDXO8kuDTcI__3UjCwt6R_I"
         )
 

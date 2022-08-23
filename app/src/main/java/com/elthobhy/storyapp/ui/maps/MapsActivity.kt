@@ -2,6 +2,7 @@ package com.elthobhy.storyapp.ui.maps
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.ext.android.inject
 import java.io.IOException
@@ -60,7 +62,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         dialogLoading.show()
         getMyLocation()
         addLocationMarker()
+        setCustomMapStyle()
 
+    }
+
+    private fun setCustomMapStyle() {
+        try {
+            val success =
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style))
+            if (!success) {
+                Log.d("MapsActivity", "setMapStyle: Style parsing failed")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.d("MapsActivity", "setMapStyle: $e")
+        }
     }
 
     private fun addLocationMarker() {
