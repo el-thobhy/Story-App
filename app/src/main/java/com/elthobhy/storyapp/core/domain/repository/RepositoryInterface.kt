@@ -21,4 +21,5 @@ interface RepositoryInterface {
         lat: RequestBody? = null,
         lon: RequestBody? = null
     ): LiveData<Resource<BaseResponse>>
+    suspend fun delete()
 }

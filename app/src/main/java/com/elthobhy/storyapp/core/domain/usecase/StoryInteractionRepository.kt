@@ -33,4 +33,8 @@ class StoryInteractionRepository(private val repository: RepositoryInterface) : 
     ): LiveData<Resource<BaseResponse>> {
         return repository.postStory(imageMultipart, description, lat, lon)
     }
+
+    override suspend fun delete() {
+        repository.delete()
+    }
 }

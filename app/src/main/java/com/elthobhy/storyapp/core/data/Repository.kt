@@ -107,4 +107,10 @@ class Repository(
             lon = lon
         )
     }
+
+    override suspend fun delete() {
+        localDataSource.deleteAll()
+    }
+
+
 }

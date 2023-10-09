@@ -9,4 +9,5 @@ class LocalDataSource(private val dao: StoryDao) {
     fun getStories(): PagingSource<Int, StoryEntity> = dao.getStories()
     fun getStoriesLocation(): Flow<List<StoryEntity>> = dao.getStoriesLocation()
     suspend fun insertStories(story: List<StoryEntity>) = dao.insertData(story)
+    suspend fun deleteAll() = dao.deleteSung()
 }
