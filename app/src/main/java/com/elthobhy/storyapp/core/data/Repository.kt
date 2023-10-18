@@ -27,14 +27,14 @@ class Repository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : RepositoryInterface {
-    override fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> {
+    override suspend fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> {
         return remoteDataSource.login(email, passwd)
     }
 
     override suspend fun saveToken(token: String): String = remoteDataSource.saveUserKey(token)
 
 
-    override fun getDataRegister(
+    override suspend fun getDataRegister(
         name: String,
         email: String,
         passwd: String

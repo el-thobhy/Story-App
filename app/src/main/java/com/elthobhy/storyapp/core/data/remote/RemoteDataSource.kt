@@ -26,10 +26,10 @@ import retrofit2.Response
 
 class RemoteDataSource(private val pref: UserPreferences) {
 
-    fun login(email: String, passwd: String): LiveData<Resource<String>> {
+    suspend fun login(email: String, passwd: String): LiveData<Resource<String>> {
         val auth = MutableLiveData<Resource<String>>()
         auth.postValue(Resource.loading())
-        val client = ApiConfig.getApiService().login(LoginRequest(email = email, password = passwd))
+        val client = ApiConfig.getApiService(pref.getUserToken().first()).login(LoginRequest(email = email, password = passwd))
 
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -53,11 +53,11 @@ class RemoteDataSource(private val pref: UserPreferences) {
         return auth
     }
 
-    fun register(name: String, email: String, passwd: String): LiveData<Resource<String>> {
+    suspend fun register(name: String, email: String, passwd: String): LiveData<Resource<String>> {
         val register = MutableLiveData<Resource<String>>()
         register.postValue(Resource.loading())
         val client =
-            ApiConfig.getApiService()
+            ApiConfig.getApiService(pref.getUserToken().first())
                 .register(RegisterRequest(password = passwd, name = name, email = email))
 
         client.enqueue(object : Callback<BaseResponse> {
@@ -85,8 +85,8 @@ class RemoteDataSource(private val pref: UserPreferences) {
     suspend fun getStories(): Flow<ApiResponse<List<ListStoryItem>>> {
         return flow {
             try {
-                val response = ApiConfig.getApiService().getStories(
-                    token = "Bearer ${pref.getUserToken().first()}"
+                val response = ApiConfig.getApiService(pref.getUserToken().first()).getStories(
+                    /*token = "Bearer ${pref.getUserToken().first()}"*/
                 )
                 val listStory = response.listStory
                 emit(ApiResponse.success(listStory))
@@ -105,8 +105,8 @@ class RemoteDataSource(private val pref: UserPreferences) {
     ): LiveData<Resource<BaseResponse>> {
         val post = MutableLiveData<Resource<BaseResponse>>()
         post.postValue(Resource.loading())
-        val client = ApiConfig.getApiService().addStory(
-            token = "Bearer ${pref.getUserToken().first()}",
+        val client = ApiConfig.getApiService(pref.getUserToken().first()).addStory(
+           /* token = "Bearer ${pref.getUserToken().first()}",*/
             file = imageMultipart,
             description = description,
             lat = lat,

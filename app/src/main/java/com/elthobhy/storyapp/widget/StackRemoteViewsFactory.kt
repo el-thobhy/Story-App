@@ -34,12 +34,8 @@ internal class StackRemoteViewsFactory(private val context: Context) :
         try {
             mWidgetItems.clear()
             coroutineScope {
-                ApiConfig.getApiService()
-                    .getStoriesForWidget(
-                        token = "Bearer ${
-                            pref.getUserToken().first()
-                        }"
-                    ).listStory.let {
+                ApiConfig.getApiService(pref.getUserToken().first())
+                    .getStoriesForWidget().listStory.let {
                         mWidgetItems.addAll(
                             it
                         )

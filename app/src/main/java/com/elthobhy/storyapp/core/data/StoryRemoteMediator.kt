@@ -52,9 +52,9 @@ class StoryRemoteMediator(
 
         try {
 
-            val responseData = ApiConfig.getApiService().getStories(
+            val responseData = ApiConfig.getApiService(pref.getUserToken().first()).getStories(
                 page = page,
-                token = "Bearer ${pref.getUserToken().first()}", size = state.config.pageSize
+               /* token = "Bearer ${pref.getUserToken().first()}",*/ size = state.config.pageSize
             ).listStory
             val mapResponse = responseData.let { DataMapper.mapResponseToEntity(it) }
 

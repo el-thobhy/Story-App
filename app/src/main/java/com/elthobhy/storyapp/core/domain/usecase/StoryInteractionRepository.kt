@@ -13,11 +13,11 @@ import okhttp3.RequestBody
 class StoryInteractionRepository(private val repository: RepositoryInterface) : StoryUsecase {
     override fun getStoriesLocation(): Flow<Resource<List<Story>>> = repository.getStoriesLocation()
     override fun getStories(): Flow<Resource<PagingData<Story>>> = repository.getStories()
-    override fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> =
+    override suspend fun getDataLogin(email: String, passwd: String): LiveData<Resource<String>> =
         repository.getDataLogin(email, passwd)
 
     override suspend fun saveToken(token: String): String = repository.saveToken(token)
-    override fun getDataRegister(
+    override suspend fun getDataRegister(
         name: String,
         email: String,
         passwd: String

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.elthobhy.storyapp.R
 import com.elthobhy.storyapp.core.utils.closeKeyboard
 import com.elthobhy.storyapp.core.utils.showDialogError
@@ -40,31 +41,34 @@ class RegisterActivity : AppCompatActivity() {
                     val password = editPassword.text.toString()
 
                     closeKeyboard(this@RegisterActivity)
-                    registerViewModel.register(name = name, email = email, passwd = password)
-                        .observe(this@RegisterActivity) {
-                            when (it.status) {
-                                Status.SUCCESS -> {
-                                    Toast.makeText(
-                                        this@RegisterActivity,
-                                        "User Created",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    startActivity(
-                                        Intent(
+                    lifecycleScope.launchWhenStarted {
+                        registerViewModel.register(name = name, email = email, passwd = password)
+                            .observe(this@RegisterActivity) {
+                                when (it.status) {
+                                    Status.SUCCESS -> {
+                                        Toast.makeText(
                                             this@RegisterActivity,
-                                            LoginActivity::class.java
+                                            "User Created",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        startActivity(
+                                            Intent(
+                                                this@RegisterActivity,
+                                                LoginActivity::class.java
+                                            )
                                         )
-                                    )
-                                    finishAffinity()
-                                }
-                                Status.LOADING -> dialogLoading.show()
-                                Status.ERROR -> {
-                                    dialogError = showDialogError(this@RegisterActivity, it.message)
-                                    dialogError.show()
-                                    dialogLoading.dismiss()
+                                        finishAffinity()
+                                    }
+                                    Status.LOADING -> dialogLoading.show()
+                                    Status.ERROR -> {
+                                        dialogError = showDialogError(this@RegisterActivity, it.message)
+                                        dialogError.show()
+                                        dialogLoading.dismiss()
+                                    }
                                 }
                             }
-                        }
+                    }
+
                 } else {
                     Toast.makeText(
                         this@RegisterActivity,

@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 
 class MyService : Service() {
     private val handler = Handler()
-    private val job = Job()
-    private val serviceScope = CoroutineScope(Dispatchers.Main+job)
     private val updateTask = object : Runnable{
         override fun run() {
 

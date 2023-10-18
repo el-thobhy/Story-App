@@ -43,33 +43,36 @@ class LoginActivity : AppCompatActivity() {
                     val passwd = editPassword.text.toString()
 
                     closeKeyboard(this@LoginActivity)
-                    loginViewModel.login(email = email, passwd = passwd)
-                        .observe(this@LoginActivity) {
-                            when (it.status) {
-                                Status.SUCCESS -> {
-                                    if (!it.data.isNullOrEmpty()) {
-                                        startActivity(
-                                            Intent(
-                                                this@LoginActivity,
-                                                MainActivity::class.java
+                    lifecycleScope.launchWhenCreated {
+                        loginViewModel.login(email = email, passwd = passwd)
+                            .observe(this@LoginActivity) {
+                                when (it.status) {
+                                    Status.SUCCESS -> {
+                                        if (!it.data.isNullOrEmpty()) {
+                                            startActivity(
+                                                Intent(
+                                                    this@LoginActivity,
+                                                    MainActivity::class.java
+                                                )
                                             )
-                                        )
-                                        finish()
-                                        lifecycleScope.launch {
-                                            authViewModel.saveKey(it.data)
+                                            finish()
+                                            lifecycleScope.launch {
+                                                authViewModel.saveKey(it.data)
+                                            }
                                         }
                                     }
-                                }
-                                Status.LOADING -> {
-                                    dialogLoading.show()
-                                }
-                                Status.ERROR -> {
-                                    dialogError = showDialogError(this@LoginActivity, it.message)
-                                    dialogError.show()
-                                    dialogLoading.dismiss()
+                                    Status.LOADING -> {
+                                        dialogLoading.show()
+                                    }
+                                    Status.ERROR -> {
+                                        dialogError = showDialogError(this@LoginActivity, it.message)
+                                        dialogError.show()
+                                        dialogLoading.dismiss()
+                                    }
                                 }
                             }
-                        }
+                    }
+
                 } else {
                     Toast.makeText(
                         this@LoginActivity,
